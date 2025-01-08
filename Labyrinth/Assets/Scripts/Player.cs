@@ -12,8 +12,6 @@ public class Player : MonoBehaviour
 
     bool TurnRight = false;
 
-    float Timer = 0;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +20,7 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Timer += Time.deltaTime * 6;
-        
+    {       
         if (PossibleToPressButton)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
@@ -33,15 +29,13 @@ public class Player : MonoBehaviour
 
                 TurnRight = true;
 
-                Timer = 0;
-
                 PlayerRotation += 90;
             }
         }
 
         if (TurnRight == true)
         {
-            for (float i = 0; i < PlayerRotation; i += Timer)
+            for (float i = 0; i < PlayerRotation; i ++)
             {
                 gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation, 0));
             }
