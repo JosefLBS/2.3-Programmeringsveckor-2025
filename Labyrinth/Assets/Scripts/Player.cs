@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -12,6 +13,10 @@ public class Player : MonoBehaviour
 
     bool TurnRight = false;
 
+    float Timer = 0;
+
+    public int TimerSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,29 +25,34 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {       
+    {
+        Timer += Time.deltaTime * TimerSpeed;
+        
         if (PossibleToPressButton)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
                 PossibleToPressButton = false;
 
-                TurnRight = true;
-
                 PlayerRotation += 90;
+
+                Timer = 0;
+
+                TurnRight = true;
             }
         }
 
         if (TurnRight == true)
         {
-            for (float i = 0; i < PlayerRotation; i ++)
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, (int)Timer, 0));
+
+            if (Timer > 90)
             {
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation, 0));
+                PossibleToPressButton = true;
+
+                TurnRight = false;
             }
 
-            PossibleToPressButton = true;
-
-            TurnRight = false;
         }
     }   
 }
