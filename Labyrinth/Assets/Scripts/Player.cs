@@ -20,13 +20,13 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer += Time.deltaTime * TimerSpeed;
+        Timer += Time.deltaTime;
         
         if (PossibleToPressButton)
         {
@@ -44,15 +44,16 @@ public class Player : MonoBehaviour
 
         if (TurnRight == true)
         {
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, (int)Timer, 0));
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation - 45, 0));
 
-            if (Timer > 90)
+            if (Timer > 0.2f)
             {
-                PossibleToPressButton = true;
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation, 0));
 
                 TurnRight = false;
-            }
 
+                PossibleToPressButton = true;
+            }
         }
     }   
 }
