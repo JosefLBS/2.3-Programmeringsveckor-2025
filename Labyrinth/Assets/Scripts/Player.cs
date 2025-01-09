@@ -6,54 +6,76 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float rotationSpeed = 5f; // Adjust for desired speed
+    private bool isRotating = false;
+    private float targetAngle = 0f;
+    private float currentAngle = 0f;
 
-    float PlayerRotation = 0;
-
-    bool PossibleToPressButton = true;
+    private bool Freeze = false;
 
     bool TurnRight = false;
+    bool TurnLeft = false;
 
-    float Timer = 0;
-
-    public int TimerSpeed;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        Timer += Time.deltaTime;
-        
-        if (PossibleToPressButton)
+        if (!Freeze)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                PossibleToPressButton = false;
-
-                PlayerRotation += 90;
-
-                Timer = 0;
+                Freeze = true;
 
                 TurnRight = true;
+                
+                isRotating = true;
+                targetAngle = currentAngle + 90f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                Freeze = true;
+
+                TurnLeft = true;
+
+                isRotating = true;
+                targetAngle = currentAngle - 90f;
             }
         }
 
-        if (TurnRight == true)
+        if (isRotating)
         {
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation - 45, 0));
+            currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * 5f);
+            transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
 
-            if (Timer > 0.2f)
+            if (TurnRight)
             {
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, PlayerRotation, 0));
+                if (targetAngle - currentAngle < 1)
+                {
+                    currentAngle = targetAngle;
+                }
+            }
+
+            if (TurnLeft)
+            {
+                if (targetAngle - currentAngle > -1)
+                {
+                    currentAngle = targetAngle;
+                }
+            }
+            
+            if (Mathf.Abs(currentAngle - targetAngle) < 0.1f)
+            {
+                isRotating = false;
+
+                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+
+                currentAngle = targetAngle; // Ensure precise final angle
 
                 TurnRight = false;
 
-                PossibleToPressButton = true;
+                TurnLeft = false;
+                
+                Freeze = false;
             }
         }
-    }   
+    }
 }
