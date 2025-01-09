@@ -6,15 +6,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float rotationSpeed = 5f; // Adjust for desired speed
     private bool isRotating = false;
     private float targetAngle = 0f;
     private float currentAngle = 0f;
 
-    private bool Freeze = false;
+    private bool Freeze = false; //Freezes Inputs
 
     bool TurnRight = false;
     bool TurnLeft = false;
+
+    float rotationSpeed = 5;
 
     void Update()
     {
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 Freeze = true;
+
+                rotationSpeed = 5f;
 
                 TurnRight = true;
                 
@@ -34,16 +37,30 @@ public class Player : MonoBehaviour
             {
                 Freeze = true;
 
+                rotationSpeed = 5f;
+
                 TurnLeft = true;
 
                 isRotating = true;
                 targetAngle = currentAngle - 90f;
             }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                Freeze = true;
+
+                rotationSpeed = 3f;
+
+                TurnRight = true;
+
+                isRotating = true;
+                targetAngle = currentAngle + 180f;
+            }
         }
 
         if (isRotating)
         {
-            currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * 5f);
+            currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
             transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
 
             if (TurnRight)
@@ -54,7 +71,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (TurnLeft)
+            if (TurnLeft) // -> Seperates Right- And Left Turns
             {
                 if (targetAngle - currentAngle > -1)
                 {
@@ -74,7 +91,7 @@ public class Player : MonoBehaviour
 
                 TurnLeft = false;
                 
-                Freeze = false;
+                Freeze = false; // Enables Player Inputs
             }
         }
     }
