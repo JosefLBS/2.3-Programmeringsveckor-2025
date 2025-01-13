@@ -73,10 +73,6 @@ public class Player : MonoBehaviour
                 Stamina = 0;
             }
         }
-
-        print(Stamina);
-
-        print(Sprinting);
         
         if (!Freeze)
         {
