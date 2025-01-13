@@ -11,6 +11,9 @@ public class Een : MonoBehaviour
     public GameObject Player;
 
     bool Detected = false;
+
+    public float RoamingSpeed;
+    public float HuntingSpeed;
     
     // Start is called before the first frame update
     void Start()
@@ -23,8 +26,6 @@ public class Een : MonoBehaviour
     {
         agent.destination = PlayerPosition.position;
 
-        print(Detected);
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position,(Player.transform.position-transform.position), out hit, Mathf.Infinity))
         {
@@ -36,6 +37,16 @@ public class Een : MonoBehaviour
             {
                 Detected = false;
             }
+        }
+
+        if (Detected == true)
+        {
+            agent.speed = HuntingSpeed;
+        }
+
+        if (Detected == false)
+        {
+            agent.speed = RoamingSpeed;
         }
     }
 }
