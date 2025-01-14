@@ -1,19 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 public class TeleportObject : MonoBehaviour
 {
     public Vector3 teleportDestination;
     public float interactionDistance = 5f;
+    bool pressedState = false;
+    public float time = 0f;
+    public float timeOver = 0.5f;
+  
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            TryTeleport();
+            pressedState = true;
+            time = Time.time;
+            //TryTeleport();
+
+           // if (time <= timeOver && )
+            {
+
+            }
         }
+
+        
     }
+
+
 
     void TryTeleport()
     {
@@ -29,9 +45,16 @@ public class TeleportObject : MonoBehaviour
         }
     }
 
+
+
     void Teleport()
     {
         transform.position = teleportDestination;
-        Debug.Log("Object teleported!");
+        Debug.Log("Item get!");
     }
+
+
+
+
+
 }
