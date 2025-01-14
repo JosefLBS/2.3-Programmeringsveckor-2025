@@ -130,6 +130,8 @@ public class Player : MonoBehaviour
                 
                 movementSpeed = 20f;
 
+                rotationSpeed = 20f;
+
                 Sprinting = true;
             }
         }
@@ -141,6 +143,8 @@ public class Player : MonoBehaviour
                 StopSprinting = true;
 
                 movementSpeed = 5f;
+
+                rotationSpeed = 5f;
 
                 Sprinting = false;
 
@@ -197,6 +201,14 @@ public class Player : MonoBehaviour
                 
                 Freeze = false; // Enables Player Inputs
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject == collision.gameObject.CompareTag("Enemy"))
+        {
+            print("Gotcha");
         }
     }
 }
