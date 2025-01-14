@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
+    bool WallBlock = false;
+
     void Update()
     {
         if (StopSprinting == true)
@@ -114,11 +116,14 @@ public class Player : MonoBehaviour
 
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
-                Freeze = true;
-                
-                Moving = true;
+                if (Physics.Raycast(transform.position, transform.forward, 5) == false)
+                {
+                    Freeze = true;
 
-                TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                    Moving = true;
+
+                    TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                }
             }
         }
 
@@ -206,7 +211,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject == collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             print("Gotcha");
         }

@@ -14,6 +14,11 @@ public class Enemy1_Script : MonoBehaviour
 
     public float RoamingSpeed;
     public float HuntingSpeed;
+    public float SearchingSpeed;
+
+    bool Hunting = false;
+    float HuntTime = 0;
+    bool MonsterGrace = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,27 +31,66 @@ public class Enemy1_Script : MonoBehaviour
     {
         agent.destination = PlayerPosition.position;
 
+        if (Hunting)
+        {
+            HuntTime += Time.deltaTime;
+        }
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, (Player.transform.position - transform.position), out hit, Mathf.Infinity))
         {
             if (hit.transform == Player.transform)
             {
-                Detected = true;
+                if (Hunting == false)
+                {
+                    Detected = true;
+
+                    agent.speed = 0f;
+                }
+
+                else if (MonsterGrace == false)
+                {
+                    agent.speed = HuntingSpeed;
+                }
             }
             else if (hit.transform != Player.transform)
             {
-                Detected = false;
+                if (Detected == true)
+                {
+                    agent.speed = SearchingSpeed;
+                }
+
+                else if (Detected == false)
+                {
+                    agent.speed = RoamingSpeed;
+                }
             }
         }
 
-        if (Detected == true)
+        if (Hunting == false)
         {
-            agent.speed = HuntingSpeed;
+            if (Detected == true)
+            {   
+                HuntTime = 0;
+
+                Hunting = true;
+
+                MonsterGrace = true;
+            }
         }
 
-        if (Detected == false)
+        if (HuntTime > 1)
         {
-            agent.speed = RoamingSpeed;
+            MonsterGrace = false;
+        }
+        
+        if (HuntTime > 21)
+        {
+            Detected = false;
+
+            Hunting = false;
+
+            print("Escaped");
         }
     }
 }

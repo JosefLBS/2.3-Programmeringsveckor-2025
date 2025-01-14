@@ -433,7 +433,7 @@ Transform:
   m_GameObject: {fileID: 112447962}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.7, y: 1, z: -0.23}
+  m_LocalPosition: {x: -12.7, y: 1, z: 1.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1449,59 +1449,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a9444f58d0db1c4ca3cffd5e225f056, type: 3}
---- !u!1 &842206765
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 842206766}
-  - component: {fileID: 842206767}
-  m_Layer: 0
-  m_Name: WallChecker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &842206766
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842206765}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 9, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1437095321}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &842206767
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842206765}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &850603915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2010,6 +1957,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall1 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7800991288778200585, guid: 3a9444f58d0db1c4ca3cffd5e225f056, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2513,7 +2464,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 403519178}
-  - {fileID: 842206766}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1437095322
@@ -3097,7 +3047,7 @@ Transform:
   m_GameObject: {fileID: 1610408702}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.1, y: 1.56, z: 19.1}
+  m_LocalPosition: {x: -17.5, y: 1.56, z: 17.5}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3170,7 +3120,8 @@ MonoBehaviour:
   PlayerPosition: {fileID: 1437095321}
   Player: {fileID: 1437095317}
   RoamingSpeed: 5
-  HuntingSpeed: 20
+  HuntingSpeed: 18
+  SearchingSpeed: 10
 --- !u!195 &1610408706
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3212,7 +3163,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4, y: 2.4, z: 0.2}
+  m_Size: {x: 1, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1613825943
 PrefabInstance:
@@ -4661,67 +4612,67 @@ SceneRoots:
   - {fileID: 708982830}
   - {fileID: 112447968}
   - {fileID: 1928223779}
-  - {fileID: 1915511204}
-  - {fileID: 1439313347}
-  - {fileID: 1541944415}
-  - {fileID: 1295301997}
-  - {fileID: 2109427545}
-  - {fileID: 1478149855}
-  - {fileID: 1931262686}
-  - {fileID: 1525504593}
-  - {fileID: 569413267}
-  - {fileID: 169092909}
-  - {fileID: 344435697}
-  - {fileID: 1490318938}
-  - {fileID: 850603915}
-  - {fileID: 30669775}
   - {fileID: 1280317928}
-  - {fileID: 828074693}
-  - {fileID: 1973997433}
-  - {fileID: 1591895432}
-  - {fileID: 740965269}
-  - {fileID: 2107057157}
-  - {fileID: 983705709}
-  - {fileID: 1542797801}
-  - {fileID: 84581582}
-  - {fileID: 24691029}
-  - {fileID: 1096031318}
-  - {fileID: 1980044418}
-  - {fileID: 1928250127}
-  - {fileID: 1696905488}
-  - {fileID: 426098804}
-  - {fileID: 1692145270}
-  - {fileID: 973454080}
-  - {fileID: 1900134287}
-  - {fileID: 2096113287}
-  - {fileID: 556791067}
-  - {fileID: 2074477874}
-  - {fileID: 1198086828}
-  - {fileID: 279557484}
-  - {fileID: 2146743521}
-  - {fileID: 814849111}
-  - {fileID: 1736839743}
   - {fileID: 1234486479}
-  - {fileID: 923731104}
-  - {fileID: 1742078666}
-  - {fileID: 635530145}
-  - {fileID: 1018710957}
-  - {fileID: 1481710355}
-  - {fileID: 2037870687}
-  - {fileID: 1644107756}
-  - {fileID: 373184114}
+  - {fileID: 2146743521}
   - {fileID: 2128341889}
-  - {fileID: 1653560295}
-  - {fileID: 798688700}
-  - {fileID: 1613825943}
-  - {fileID: 1231729755}
-  - {fileID: 688687794}
-  - {fileID: 901733190}
-  - {fileID: 360157369}
-  - {fileID: 137172341}
-  - {fileID: 1773051963}
-  - {fileID: 1038328176}
+  - {fileID: 740965269}
+  - {fileID: 814849111}
+  - {fileID: 2109427545}
+  - {fileID: 2074477874}
+  - {fileID: 1915511204}
   - {fileID: 1104905114}
-  - {fileID: 1610076833}
-  - {fileID: 1726373864}
+  - {fileID: 2037870687}
+  - {fileID: 30669775}
+  - {fileID: 1980044418}
   - {fileID: 1894880959}
+  - {fileID: 1928250127}
+  - {fileID: 1038328176}
+  - {fileID: 373184114}
+  - {fileID: 360157369}
+  - {fileID: 1742078666}
+  - {fileID: 983705709}
+  - {fileID: 923731104}
+  - {fileID: 850603915}
+  - {fileID: 556791067}
+  - {fileID: 1541944415}
+  - {fileID: 1591895432}
+  - {fileID: 137172341}
+  - {fileID: 426098804}
+  - {fileID: 1525504593}
+  - {fileID: 1478149855}
+  - {fileID: 688687794}
+  - {fileID: 1692145270}
+  - {fileID: 1653560295}
+  - {fileID: 635530145}
+  - {fileID: 1644107756}
+  - {fileID: 1295301997}
+  - {fileID: 1231729755}
+  - {fileID: 1198086828}
+  - {fileID: 798688700}
+  - {fileID: 828074693}
+  - {fileID: 2107057157}
+  - {fileID: 84581582}
+  - {fileID: 2096113287}
+  - {fileID: 1096031318}
+  - {fileID: 24691029}
+  - {fileID: 1973997433}
+  - {fileID: 1900134287}
+  - {fileID: 1018710957}
+  - {fileID: 1931262686}
+  - {fileID: 344435697}
+  - {fileID: 1736839743}
+  - {fileID: 1773051963}
+  - {fileID: 973454080}
+  - {fileID: 1726373864}
+  - {fileID: 901733190}
+  - {fileID: 279557484}
+  - {fileID: 569413267}
+  - {fileID: 1542797801}
+  - {fileID: 1610076833}
+  - {fileID: 1490318938}
+  - {fileID: 169092909}
+  - {fileID: 1481710355}
+  - {fileID: 1439313347}
+  - {fileID: 1696905488}
+  - {fileID: 1613825943}
