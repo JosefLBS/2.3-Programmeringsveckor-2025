@@ -25,12 +25,25 @@ public class Player : MonoBehaviour
     bool Sprinting = false;
     bool StopSprinting = false;
     float SprintCD = 0;
+    bool Sprint_Recovery = false;
 
     Vector3 TargetPosition;
 
     void Update()
     {
-        if (Sprinting == false)
+        if (StopSprinting == true)
+        {
+            SprintCD += Time.deltaTime;
+
+            if (SprintCD >= 1)
+            {
+                StopSprinting = false;
+
+                Sprint_Recovery = true;
+            }
+        }
+
+        if (Sprint_Recovery == true)
         {
             if (Stamina <= 100)
             {
@@ -45,9 +58,14 @@ public class Player : MonoBehaviour
 
         if (Sprinting == true)
         {
+            Sprint_Recovery = false;
+            
             if (Stamina >= 0)
             {
-                Stamina -= Time.deltaTime * 20;
+                if (Moving)
+                {
+                    Stamina -= Time.deltaTime * 20;
+                }
             }
 
             if (Stamina < 0)
@@ -55,20 +73,6 @@ public class Player : MonoBehaviour
                 Stamina = 0;
             }
         }
-
-        if (StopSprinting == true)
-        {
-            SprintCD += Time.deltaTime;
-
-            if (SprintCD >= 1)
-            {
-                StopSprinting = false;
-
-                Sprinting = false;
-            }
-        }
-
-        print(Stamina);
         
         if (!Freeze)
         {
@@ -108,7 +112,7 @@ public class Player : MonoBehaviour
                 targetAngle = currentAngle + 180f;
             }
 
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
                 Freeze = true;
                 
@@ -118,20 +122,34 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {   
-            movementSpeed = 20f;
+            if (Stamina > 0)
+            {
+                StopSprinting = false;
+                
+                movementSpeed = 20f;
 
-            Sprinting = true;
+                rotationSpeed = 20f;
+
+                Sprinting = true;
+            }
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) || Stamina <= 0)
         {
-            movementSpeed = 5f;
+            if (StopSprinting == false)
+            {
+                StopSprinting = true;
 
-            SprintCD = 0f;
-            
-            StopSprinting = true;
+                movementSpeed = 5f;
+
+                rotationSpeed = 5f;
+
+                Sprinting = false;
+
+                SprintCD = 0f;
+            }
         }
 
         if (Moving == true)
@@ -183,6 +201,14 @@ public class Player : MonoBehaviour
                 
                 Freeze = false; // Enables Player Inputs
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject == collision.gameObject.CompareTag("Enemy"))
+        {
+            print("Gotcha");
         }
     }
 }
