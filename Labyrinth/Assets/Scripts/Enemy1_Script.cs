@@ -8,6 +8,8 @@ public class Enemy1_Script : MonoBehaviour
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
+    public Transform spawnerPoint;
+
     public GameObject Player;
 
     bool Detected = false;
@@ -86,11 +88,15 @@ public class Enemy1_Script : MonoBehaviour
         
         if (HuntTime > 21)
         {
+            HuntTime = 0f;
+            
             Detected = false;
 
             Hunting = false;
 
-            print("Escaped");
+            agent.speed = 5f;
+
+            gameObject.transform.position = spawnerPoint.position;
         }
     }
 }

@@ -930,6 +930,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a9444f58d0db1c4ca3cffd5e225f056, type: 3}
+--- !u!1 &443455051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 443455052}
+  m_Layer: 0
+  m_Name: Stalker_SP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &443455052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443455051}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -17.5, y: 2.41, z: 17.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &556791067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3047,7 +3078,7 @@ Transform:
   m_GameObject: {fileID: 1610408702}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.5, y: 1.56, z: 17.5}
+  m_LocalPosition: {x: -17.5, y: 2.41, z: 17.5}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3118,8 +3149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPosition: {fileID: 1437095321}
+  spawnerPoint: {fileID: 443455052}
   Player: {fileID: 1437095317}
-  RoamingSpeed: 5
+  RoamingSpeed: 3
   HuntingSpeed: 18
   SearchingSpeed: 10
 --- !u!195 &1610408706
@@ -3968,7 +4000,7 @@ Transform:
   m_GameObject: {fileID: 1928223778}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05647677, y: 0.74845123, z: -1.3703651}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4612,6 +4644,7 @@ SceneRoots:
   - {fileID: 708982830}
   - {fileID: 112447968}
   - {fileID: 1928223779}
+  - {fileID: 443455052}
   - {fileID: 1280317928}
   - {fileID: 1234486479}
   - {fileID: 2146743521}
