@@ -12,6 +12,11 @@ public class Enemy1_Script : MonoBehaviour
 
     public GameObject Player;
 
+    public GameObject RedLayer;
+
+    [SerializeField]
+    AudioSource Scream;
+
     bool Detected = false;
 
     public float RoamingSpeed;
@@ -26,6 +31,8 @@ public class Enemy1_Script : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        Scream = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -36,6 +43,8 @@ public class Enemy1_Script : MonoBehaviour
         if (Hunting)
         {
             HuntTime += Time.deltaTime;
+
+            RedLayer.SetActive(true);
         }
 
         RaycastHit hit;
@@ -48,6 +57,8 @@ public class Enemy1_Script : MonoBehaviour
                     Detected = true;
 
                     agent.speed = 0f;
+
+                    Scream.enabled = true;
                 }
 
                 else if (MonsterGrace == false)
@@ -85,11 +96,18 @@ public class Enemy1_Script : MonoBehaviour
         {
             MonsterGrace = false;
         }
+
+        if (HuntTime > 4)
+        {
+            Scream.enabled = false;
+        }
         
         if (HuntTime > 21)
         {
             HuntTime = 0f;
-            
+
+            RedLayer.SetActive(false);
+
             Detected = false;
 
             Hunting = false;
