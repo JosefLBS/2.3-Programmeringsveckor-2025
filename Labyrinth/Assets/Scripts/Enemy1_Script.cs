@@ -17,6 +17,9 @@ public class Enemy1_Script : MonoBehaviour
     [SerializeField]
     AudioSource Scream;
 
+    [SerializeField]
+    Animator animator;
+
     bool Detected = false;
 
     public float RoamingSpeed;
@@ -33,6 +36,8 @@ public class Enemy1_Script : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         Scream = GetComponent<AudioSource>();
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -57,6 +62,8 @@ public class Enemy1_Script : MonoBehaviour
                     Detected = true;
 
                     agent.speed = 0f;
+
+                    animator.SetBool("GracePeriod", true);
 
                     Scream.enabled = true;
                 }
@@ -95,6 +102,8 @@ public class Enemy1_Script : MonoBehaviour
         if (HuntTime > 1)
         {
             MonsterGrace = false;
+
+            animator.SetBool("GracePeriod", false);
         }
 
         if (HuntTime > 4)
