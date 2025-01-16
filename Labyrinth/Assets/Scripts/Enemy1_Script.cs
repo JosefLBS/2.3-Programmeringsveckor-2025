@@ -10,12 +10,12 @@ public class Enemy1_Script : MonoBehaviour
 
     public Transform spawnerPoint;
 
-    public GameObject Player;
+    public GameObject PlayerGameObject;
 
     public GameObject RedLayer;
 
     [SerializeField]
-    AudioSource Scream;
+    Animator animator;
 
     bool Detected = false;
 
@@ -27,12 +27,16 @@ public class Enemy1_Script : MonoBehaviour
     float HuntTime = 0;
     bool MonsterGrace = false;
 
+    AudioSource[] audioSources;
+
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        Scream = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -48,9 +52,9 @@ public class Enemy1_Script : MonoBehaviour
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, (Player.transform.position - transform.position), out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
         {
-            if (hit.transform == Player.transform)
+            if (hit.transform == PlayerGameObject.transform)
             {
                 if (Hunting == false)
                 {
@@ -58,7 +62,11 @@ public class Enemy1_Script : MonoBehaviour
 
                     agent.speed = 0f;
 
-                    Scream.enabled = true;
+                    animator.SetBool("GracePeriod", true);
+
+                    audioSources[0].enabled = true;
+
+                    audioSources[1].enabled = true;
                 }
 
                 else if (MonsterGrace == false)
@@ -66,7 +74,7 @@ public class Enemy1_Script : MonoBehaviour
                     agent.speed = HuntingSpeed;
                 }
             }
-            else if (hit.transform != Player.transform)
+            else if (hit.transform != PlayerGameObject.transform)
             {
                 if (Detected == true)
                 {
@@ -95,11 +103,13 @@ public class Enemy1_Script : MonoBehaviour
         if (HuntTime > 1)
         {
             MonsterGrace = false;
+
+            animator.SetBool("GracePeriod", false);
         }
 
         if (HuntTime > 4)
         {
-            Scream.enabled = false;
+            audioSources[0].enabled = false;
         }
         
         if (HuntTime > 21)
@@ -107,6 +117,8 @@ public class Enemy1_Script : MonoBehaviour
             HuntTime = 0f;
 
             RedLayer.SetActive(false);
+
+            audioSources[1].enabled = false;
 
             Detected = false;
 

@@ -15,24 +15,30 @@ public class Player : MonoBehaviour
     bool TurnRight = false;
     bool TurnLeft = false;
 
-    bool Moving = false;
+    public bool Moving = false;
 
     float rotationSpeed = 5;
     float movementSpeed = 5;
 
     float Stamina = 100;
 
-    bool Sprinting = false;
+    public bool Sprinting = false;
     bool StopSprinting = false;
     float SprintCD = 0;
     bool Sprint_Recovery = false;
 
     Vector3 TargetPosition;
 
-    bool WallBlock = false;
+    bool rCrystal = false;
+    bool rPower = false;
+    bool bCrystal = false;
+    bool bPower = false;
+    bool Purple = false;
 
     void Update()
     {
+        // Crystal Powers
+        
         if (StopSprinting == true)
         {
             SprintCD += Time.deltaTime;
