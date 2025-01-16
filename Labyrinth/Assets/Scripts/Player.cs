@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     float Stamina = 100;
 
-    bool Sprinting = false;
+    public bool Sprinting = false;
     bool StopSprinting = false;
     float SprintCD = 0;
     bool Sprint_Recovery = false;
