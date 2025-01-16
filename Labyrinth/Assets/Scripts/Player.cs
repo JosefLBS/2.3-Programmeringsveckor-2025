@@ -30,13 +30,20 @@ public class Player : MonoBehaviour
     Vector3 TargetPosition;
 
     bool rCrystal = false;
-    bool rPower = false;
+    bool rPowerReady = true;
+    bool rPowerUsed = false;
     bool bCrystal = false;
-    bool bPower = false;
+    bool bPowerReady = true;
+    bool bPowerUsed = false;
     bool Purple = false;
+
+    public bool Key = false;
 
     [SerializeField]
     Animator animator;
+
+    [SerializeField]
+    GameObject door;
 
     private void Start()
     {
@@ -57,22 +64,22 @@ public class Player : MonoBehaviour
             animator.SetBool("BlueCrystal", true);
         }
 
-        if (rPower == true)
+        if (rPowerReady == true)
         {
             animator.SetBool("Redpower", true);
         }
 
-        if (rPower == false)
+        if (rPowerReady == false)
         {
             animator.SetBool("Redpower", false);
         }
 
-        if (bPower == true)
+        if (bPowerReady == true)
         {
             animator.SetBool("BluePower", true);
         }
 
-        if (bPower == false)
+        if (bPowerReady == false)
         {
             animator.SetBool("BluePower", false);
         }
@@ -163,9 +170,10 @@ public class Player : MonoBehaviour
                 targetAngle = currentAngle + 180f;
             }
 
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            
+            if (Physics.Raycast(transform.position, transform.forward, 5) == false  || rPowerUsed == true)
             {
-                if (Physics.Raycast(transform.position, transform.forward, 5) == false)
+                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
                 {
                     Freeze = true;
 
@@ -173,7 +181,14 @@ public class Player : MonoBehaviour
 
                     TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
                 }
+
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    // BluePower
+                }
             }
+
+            
         }
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
