@@ -28,7 +28,7 @@ public class Enemy2 : MonoBehaviour
 
     bool Hunting = false;
     bool Searching = false;
-    float SearchTime = 20;
+    float SearchTime = 10;
 
     Vector3 NextPoint;
 
@@ -153,7 +153,7 @@ public class Enemy2 : MonoBehaviour
 
         if (Hunting)
         {
-            if (player.Sprinting)
+            if (player.Sprinting && player.Moving)
             {
                 agent.destination = PlayerPosition.position;
 

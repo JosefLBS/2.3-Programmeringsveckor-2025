@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     bool TurnRight = false;
     bool TurnLeft = false;
 
-    bool Moving = false;
+    public bool Moving = false;
 
     float rotationSpeed = 5;
     float movementSpeed = 5;
@@ -29,8 +29,16 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
+    bool rCrystal = false;
+    bool rPower = false;
+    bool bCrystal = false;
+    bool bPower = false;
+    bool Purple = false;
+
     void Update()
     {
+        // Crystal Powers
+        
         if (StopSprinting == true)
         {
             SprintCD += Time.deltaTime;
