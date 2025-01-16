@@ -3409,6 +3409,7 @@ MonoBehaviour:
   Key: 1
   animator: {fileID: 0}
   door: {fileID: 0}
+  PurpleLight: {fileID: 1723679608}
 --- !u!54 &1437095323
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4708,7 +4709,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723679606}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0

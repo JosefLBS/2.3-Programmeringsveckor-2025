@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     bool bCrystal = false;
     bool bPowerReady = true;
     bool bPowerUsed = false;
-    bool Purple = false;
+    bool Purple = true;
 
     public bool Key = false;
 
@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject door;
+
+    public Light PurpleLight;
 
     private void Start()
     {
@@ -87,6 +89,8 @@ public class Player : MonoBehaviour
         if (Purple == true)
         {
             animator.SetBool("PurplePower", true);
+
+            PurpleLight.enabled = true;
         }
 
         if (StopSprinting == true)
