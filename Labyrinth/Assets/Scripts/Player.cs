@@ -29,8 +29,6 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
-    bool WallBlock = false;
-
     void Update()
     {
         if (StopSprinting == true)

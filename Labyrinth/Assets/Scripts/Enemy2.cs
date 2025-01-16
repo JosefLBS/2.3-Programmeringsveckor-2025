@@ -43,6 +43,8 @@ public class Enemy2 : MonoBehaviour
         
         agent = GetComponent<NavMeshAgent>();
 
+        audioSources = GetComponents<AudioSource>();
+
         NextPoint = Point1.position;
 
         agent.speed = PatrolSpeed;
@@ -50,13 +52,13 @@ public class Enemy2 : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        print(agent.speed);
-        
+    {   
         // Patrol and detection
         
         if (Detected == false && Hunting == false)
         {
+            audioSources[1].enabled = false;
+            
             agent.destination = NextPoint;
 
             agent.speed = PatrolSpeed;
@@ -70,7 +72,7 @@ public class Enemy2 : MonoBehaviour
 
                 else
                 {
-                    // Whisper Sounds
+                    audioSources[0].enabled = true;
                 }
             }
         }
@@ -94,6 +96,9 @@ public class Enemy2 : MonoBehaviour
         
         if (Detected == true)
         {
+            audioSources[0].enabled = false;
+            audioSources[1].enabled = true;
+            
             if (Hunting == false || LOS == true)
             {
                 agent.destination = PlayerPosition.position;
