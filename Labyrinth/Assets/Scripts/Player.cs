@@ -35,10 +35,53 @@ public class Player : MonoBehaviour
     bool bPower = false;
     bool Purple = false;
 
+    [SerializeField]
+    Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
+
     void Update()
     {
         // Crystal Powers
-        
+
+        if (rCrystal == true)
+        {
+            animator.SetBool("RedCristal", true);
+        }
+
+        if (bCrystal == true)
+        {
+            animator.SetBool("BlueCrystal", true);
+        }
+
+        if (rPower == true)
+        {
+            animator.SetBool("Redpower", true);
+        }
+
+        if (rPower == false)
+        {
+            animator.SetBool("Redpower", false);
+        }
+
+        if (bPower == true)
+        {
+            animator.SetBool("BluePower", true);
+        }
+
+        if (bPower == false)
+        {
+            animator.SetBool("BluePower", false);
+        }
+
+        if (Purple == true)
+        {
+            animator.SetBool("PurplePower", true);
+        }
+
         if (StopSprinting == true)
         {
             SprintCD += Time.deltaTime;

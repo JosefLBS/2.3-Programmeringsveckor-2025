@@ -14,8 +14,6 @@ public class Enemy2 : MonoBehaviour
 
     public GameObject PlayerGameObject;
 
-    public GameObject RedLayer;
-
     public float HearingRange;
     public float DetectionRange;
 
