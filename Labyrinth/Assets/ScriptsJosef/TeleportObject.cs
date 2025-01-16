@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 
@@ -10,28 +11,47 @@ public class TeleportObject : MonoBehaviour
     bool pressedState = false;
     public float time = 0f;
     public float timeOver = 0.5f;
-  
-
     void Update()
     {
+
+        time += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.E))
         {
+            time = 0f;
             pressedState = true;
-            time = Time.time;
-            //TryTeleport();
+        }
 
-           // if (time <= timeOver && )
+        if (time <= timeOver && Input.GetKeyDown(KeyCode.Alpha1) && pressedState == true)
+        {
+            if (TeleToPlayer.checkD1 == true)
             {
-
+                TryTeleport1(new Vector3(5, 5, 5));
+                pressedState = false;
             }
         }
 
-        
+        if (time <= timeOver && Input.GetKeyDown(KeyCode.Alpha2) && pressedState == true)
+        {
+            if (TeleToPlayer.checkD2 == true)
+            {
+                TryTeleport2(new Vector3(7, 7, 7));
+                pressedState = false;
+            }
+        }
+
+        if (time <= timeOver && Input.GetKeyDown(KeyCode.Alpha3) && pressedState == true)
+        {
+            if (TeleToPlayer.checkD3 == true)
+            {
+                TryTeleport3(new Vector3(9, 9, 9));
+                pressedState = false;
+            }
+        }
     }
 
 
 
-    void TryTeleport()
+    void TryTeleport1(Vector3 target)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -40,18 +60,62 @@ public class TeleportObject : MonoBehaviour
         {
             if (hit.collider.gameObject == gameObject)
             {
-                Teleport();
+                Teleport1(target);
+            }
+        }
+    }
+
+    void TryTeleport2(Vector3 target)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactionDistance))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                Teleport2(target);
+            }
+        }
+    }
+
+    void TryTeleport3(Vector3 target)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactionDistance))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                Teleport3(target);
             }
         }
     }
 
 
 
-    void Teleport()
+    private void Teleport1(Vector3 target)
     {
-        transform.position = teleportDestination;
+        transform.position = target;
         Debug.Log("Item get!");
+        TeleToPlayer.checkD1 = false;
     }
+
+    private void Teleport2(Vector3 target)
+    {
+        transform.position = target;
+        Debug.Log("Item get!");
+        TeleToPlayer.checkD2 = false;
+    }
+
+    private void Teleport3(Vector3 target)
+    {
+        transform.position = target;
+        Debug.Log("Item get!");
+        TeleToPlayer.checkD3 = false;
+    }
+
 
 
 
