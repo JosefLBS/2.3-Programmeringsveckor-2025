@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Albin_PlayerSprint : MonoBehaviour
 {
@@ -29,8 +31,19 @@ public class Albin_PlayerSprint : MonoBehaviour
 
     bool WallBlock = false;
 
+
+    public Image StaminaBar;
+
+    public float Staminaalbin, MaxStamina;
+
+    public float AttackCost;
+    public float RunCost;
+
+
     void Update()
     {
+        StaminaBar.fillAmount = Stamina / MaxStamina;
+
         if (StopSprinting == true)
         {
             SprintCD += Time.deltaTime;
@@ -38,6 +51,21 @@ public class Albin_PlayerSprint : MonoBehaviour
             if (SprintCD >= 1)
             {
                 StopSprinting = false;
+
+
+                if (Input.GetKeyDown("f"))
+                {
+
+                    Debug.Log("Attack!");
+
+                }
+                Staminaalbin -= AttackCost;
+                if (Staminaalbin < 0) Staminaalbin = 0;
+
+                
+
+
+
 
                 Sprint_Recovery = true;
             }
@@ -211,7 +239,16 @@ public class Albin_PlayerSprint : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+      
+            
             print("Gotcha");
+
+
+
+
         }
     }
+
+
+  
 }
