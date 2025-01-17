@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -61,6 +62,13 @@ public class Player : MonoBehaviour
 
     Vector3 blockPosition;
 
+    public Image StaminaBar;
+
+    public float Staminaalbin, MaxStamina;
+
+    public float AttackCost;
+    public float RunCost;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -68,6 +76,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        StaminaBar.fillAmount = Stamina / MaxStamina;
+
         // Crystal Powers
 
         if (rCrystal == true)
