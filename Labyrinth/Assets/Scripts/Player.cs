@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     bool bCrystal = false;
 
     bool bPowerReady = true;
-    bool bPowerUsed = false;
+    float bPowerTime = 0;
     float b_CD = 0;
 
     bool Purple = false;
@@ -49,11 +49,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     Animator animator;
 
+    public GameObject BlueBlock;
+
+    public Transform blockSpawner;
+    
     public GameObject BlueCrystal;
 
     public GameObject RedCrystal;
 
     public Light PurpleLight;
+
+    Vector3 blockPosition;
 
     private void Start()
     {
@@ -91,8 +97,6 @@ public class Player : MonoBehaviour
                 r_CD = 0;
 
                 rPowerTime = 0;
-
-
             }
         }
 
@@ -116,14 +120,33 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (bPowerReady == true)
-        {
-            animator.SetBool("BluePower", true);
-        }
+        // BLUE CRYSTAL
+
 
         if (bPowerReady == false)
         {
-            animator.SetBool("BluePower", false);
+            b_CD += Time.deltaTime;
+
+            bPowerTime += Time.deltaTime;
+
+            BlueBlock.transform.position = blockPosition;
+
+            if (bPowerTime > 20)
+            {
+                BlueBlock.transform.position = blockSpawner.position;
+                
+                BlueBlock.SetActive(false);
+            }
+            
+            if (b_CD > 40)
+            {
+                bPowerReady = true;
+            }
+        }
+
+        if (bPowerReady == true)
+        {
+            animator.SetBool("BluePower", true);
         }
 
         if (Purple == true)
@@ -225,9 +248,24 @@ public class Player : MonoBehaviour
                     TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (bPowerReady)
                 {
                     // BluePower
+
+                    if (Input.GetKeyDown(KeyCode.Z))
+                    {
+                        bPowerTime = 0;
+
+                        b_CD = 0;
+
+                        animator.SetBool("BluePower", false);
+
+                        bPowerReady = false;
+
+                        BlueBlock.SetActive(true);
+
+                        blockPosition = BlueBlock.transform.position;
+                    }                          
                 }
             }
 

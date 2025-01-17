@@ -9,6 +9,7 @@ TagManager:
   - Door
   - BlueCrystal
   - RedCrystal
+  - OuterWall
   layers:
   - Default
   - TransparentFX
