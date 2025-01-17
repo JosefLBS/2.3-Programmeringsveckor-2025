@@ -10,6 +10,7 @@ TagManager:
   - BlueCrystal
   - RedCrystal
   - OuterWall
+  - BlueWall
   layers:
   - Default
   - TransparentFX
