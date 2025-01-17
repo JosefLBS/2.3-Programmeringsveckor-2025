@@ -30,20 +30,28 @@ public class Player : MonoBehaviour
     Vector3 TargetPosition;
 
     bool rCrystal = false;
+
     bool rPowerReady = true;
-    bool rPowerUsed = false;
+    bool rPowerUsing = false;
+    float rPowerTime = 0;
+    float r_CD = 0;
+
     bool bCrystal = false;
+
     bool bPowerReady = true;
     bool bPowerUsed = false;
-    bool Purple = true;
+    float b_CD = 0;
+
+    bool Purple = false;
 
     public bool Key = false;
 
     [SerializeField]
     Animator animator;
 
-    [SerializeField]
-    GameObject door;
+    public GameObject BlueCrystal;
+
+    public GameObject RedCrystal;
 
     public Light PurpleLight;
 
@@ -66,14 +74,46 @@ public class Player : MonoBehaviour
             animator.SetBool("BlueCrystal", true);
         }
 
+        // RED CRYSTAL
+        
         if (rPowerReady == true)
         {
             animator.SetBool("Redpower", true);
+
+            if (Input.GetKey(KeyCode.X))
+            {
+                rPowerUsing = true;
+
+                rPowerReady = false;
+
+                animator.SetBool("Redpower", false);
+
+                r_CD = 0;
+
+                rPowerTime = 0;
+
+
+            }
         }
 
-        if (rPowerReady == false)
+        if (rPowerUsing)
         {
-            animator.SetBool("Redpower", false);
+            rPowerTime += Time.deltaTime;
+
+            if (rPowerTime > 5)
+            {
+                rPowerUsing = false;
+            }
+        }
+
+        if (rPowerReady == false && rCrystal && rPowerUsing == false)
+        {
+            r_CD += Time.deltaTime;
+
+            if (r_CD > 30)
+            {
+                rPowerReady = true;
+            }
         }
 
         if (bPowerReady == true)
@@ -174,8 +214,7 @@ public class Player : MonoBehaviour
                 targetAngle = currentAngle + 180f;
             }
 
-            
-            if (Physics.Raycast(transform.position, transform.forward, 5) == false  || rPowerUsed == true)
+            if (Physics.Raycast(transform.position, transform.forward, 5) == false)
             {
                 if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
                 {
@@ -192,7 +231,24 @@ public class Player : MonoBehaviour
                 }
             }
 
-            
+            RaycastHit hit;
+            if (rPowerUsing)
+            {
+                if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.CompareTag("OuterWall") == false && Physics.Raycast(transform.position, transform.forward, 5) == true)
+                    {
+                        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                        {
+                            Freeze = true;
+
+                            Moving = true;
+
+                            TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                        }
+                    }
+                }
+            }
         }
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -274,6 +330,20 @@ public class Player : MonoBehaviour
                 
                 Freeze = false; // Enables Player Inputs
             }
+        }
+
+        if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
+        {
+            bCrystal = true;
+
+            BlueCrystal.SetActive(false);
+        }
+
+        if (transform.position.x == RedCrystal.transform.position.x && transform.position.z == RedCrystal.transform.position.z)
+        {
+            rCrystal = true;
+
+            RedCrystal.SetActive(false);
         }
     }
 

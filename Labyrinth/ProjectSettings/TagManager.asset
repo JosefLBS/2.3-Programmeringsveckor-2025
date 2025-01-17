@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Wall
   - Door
+  - BlueCrystal
+  - RedCrystal
   layers:
   - Default
   - TransparentFX

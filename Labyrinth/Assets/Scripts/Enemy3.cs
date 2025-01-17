@@ -128,7 +128,5 @@ public class Enemy3 : MonoBehaviour
                 Stunned = false;
             }
         }
-
-        // MÅSTE GÖRA SOUND EFFECTS
     }
 }
