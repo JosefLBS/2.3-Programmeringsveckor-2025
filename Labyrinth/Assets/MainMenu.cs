@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync("Albin");
+        SceneManager.LoadSceneAsync("Labyrinth");
     }
 
 

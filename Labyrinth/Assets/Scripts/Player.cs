@@ -30,14 +30,14 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
-    bool rCrystal = false;
+    bool rCrystal = true;
 
     bool rPowerReady = true;
     bool rPowerUsing = false;
     float rPowerTime = 0;
     float r_CD = 0;
 
-    bool bCrystal = false;
+    bool bCrystal = true;
 
     bool bPowerReady = true;
     float bPowerTime = 0;
@@ -54,9 +54,9 @@ public class Player : MonoBehaviour
 
     public Transform blockSpawner;
     
-    public GameObject BlueCrystal;
+    // public GameObject BlueCrystal;
 
-    public GameObject RedCrystal;
+    // public GameObject RedCrystal;
 
     public Light PurpleLight;
 
@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
 
     public float AttackCost;
     public float RunCost;
+
+    public Transform Spawn;
 
     private void Start()
     {
@@ -380,6 +382,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        /*/
+        
         if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
         {
             bCrystal = true;
@@ -393,13 +397,15 @@ public class Player : MonoBehaviour
 
             RedCrystal.SetActive(false);
         }
+
+        /*/
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            print("Gotcha");
+            gameObject.transform.position = Spawn.position;
         }
     }
 }
