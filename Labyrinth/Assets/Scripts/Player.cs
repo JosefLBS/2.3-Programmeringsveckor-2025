@@ -30,13 +30,30 @@ public class Player : MonoBehaviour
     Vector3 TargetPosition;
 
     bool rCrystal = false;
-    bool rPower = false;
+
+    bool rPowerReady = true;
+    bool rPowerUsing = false;
+    float rPowerTime = 0;
+    float r_CD = 0;
+
     bool bCrystal = false;
-    bool bPower = false;
+
+    bool bPowerReady = true;
+    bool bPowerUsed = false;
+    float b_CD = 0;
+
     bool Purple = false;
+
+    public bool Key = false;
 
     [SerializeField]
     Animator animator;
+
+    public GameObject BlueCrystal;
+
+    public GameObject RedCrystal;
+
+    public Light PurpleLight;
 
     private void Start()
     {
@@ -57,22 +74,54 @@ public class Player : MonoBehaviour
             animator.SetBool("BlueCrystal", true);
         }
 
-        if (rPower == true)
+        // RED CRYSTAL
+        
+        if (rPowerReady == true)
         {
             animator.SetBool("Redpower", true);
+
+            if (Input.GetKey(KeyCode.X))
+            {
+                rPowerUsing = true;
+
+                rPowerReady = false;
+
+                animator.SetBool("Redpower", false);
+
+                r_CD = 0;
+
+                rPowerTime = 0;
+
+
+            }
         }
 
-        if (rPower == false)
+        if (rPowerUsing)
         {
-            animator.SetBool("Redpower", false);
+            rPowerTime += Time.deltaTime;
+
+            if (rPowerTime > 5)
+            {
+                rPowerUsing = false;
+            }
         }
 
-        if (bPower == true)
+        if (rPowerReady == false && rCrystal && rPowerUsing == false)
+        {
+            r_CD += Time.deltaTime;
+
+            if (r_CD > 30)
+            {
+                rPowerReady = true;
+            }
+        }
+
+        if (bPowerReady == true)
         {
             animator.SetBool("BluePower", true);
         }
 
-        if (bPower == false)
+        if (bPowerReady == false)
         {
             animator.SetBool("BluePower", false);
         }
@@ -80,6 +129,8 @@ public class Player : MonoBehaviour
         if (Purple == true)
         {
             animator.SetBool("PurplePower", true);
+
+            PurpleLight.enabled = true;
         }
 
         if (StopSprinting == true)
@@ -163,15 +214,39 @@ public class Player : MonoBehaviour
                 targetAngle = currentAngle + 180f;
             }
 
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            if (Physics.Raycast(transform.position, transform.forward, 5) == false)
             {
-                if (Physics.Raycast(transform.position, transform.forward, 5) == false)
+                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
                 {
                     Freeze = true;
 
                     Moving = true;
 
                     TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    // BluePower
+                }
+            }
+
+            RaycastHit hit;
+            if (rPowerUsing)
+            {
+                if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.CompareTag("OuterWall") == false && Physics.Raycast(transform.position, transform.forward, 5) == true)
+                    {
+                        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                        {
+                            Freeze = true;
+
+                            Moving = true;
+
+                            TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                        }
+                    }
                 }
             }
         }
@@ -255,6 +330,20 @@ public class Player : MonoBehaviour
                 
                 Freeze = false; // Enables Player Inputs
             }
+        }
+
+        if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
+        {
+            bCrystal = true;
+
+            BlueCrystal.SetActive(false);
+        }
+
+        if (transform.position.x == RedCrystal.transform.position.x && transform.position.z == RedCrystal.transform.position.z)
+        {
+            rCrystal = true;
+
+            RedCrystal.SetActive(false);
         }
     }
 
