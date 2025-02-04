@@ -23,7 +23,7 @@ public class Enemy1_Script : MonoBehaviour
     public float HuntingSpeed;
     public float SearchingSpeed;
 
-    bool Hunting = false;
+    public bool Hunting = false;
     float HuntTime = 0;
     bool MonsterGrace = false;
 

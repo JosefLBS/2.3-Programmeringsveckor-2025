@@ -31,6 +31,8 @@ public class Enemy3 : MonoBehaviour
     float Stun_timer;
     public float StunTime;
 
+    public float JinnRange; //Based of the Phasmophobia Jinn Ghost
+
     // Start is called before the first frame update
     void Start()
     {

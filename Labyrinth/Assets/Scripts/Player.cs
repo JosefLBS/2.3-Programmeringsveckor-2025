@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -34,13 +37,15 @@ public class Player : MonoBehaviour
 
     bool rPowerReady = true;
     bool rPowerUsing = false;
-    float rPowerTime = 0;
+    float rPowerTime = 5;
+    float rDuration = 5;
     float r_CD = 0;
 
     bool bCrystal = true;
 
     bool bPowerReady = true;
-    float bPowerTime = 0;
+    float bPowerTime = 6;
+    float bDuration = 6;
     float b_CD = 0;
 
     bool Purple = false;
@@ -60,6 +65,8 @@ public class Player : MonoBehaviour
 
     public Light PurpleLight;
 
+    public Light RedLight;
+
     Vector3 blockPosition;
 
     public Image StaminaBar;
@@ -71,14 +78,50 @@ public class Player : MonoBehaviour
 
     public Transform Spawn;
 
+    [SerializeField]
+    GameObject textGameObject1;
+
+    TextMeshProUGUI textComponent1;
+
+    [SerializeField]
+    GameObject textGameObject2;
+
+    TextMeshProUGUI textComponent2;
+
+    Enemy1_Script enemy1;
+
+    public GameObject ENEMY1;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
+
+        enemy1 = ENEMY1.GetComponent<Enemy1_Script>();
+
+        textComponent1 = textGameObject1.GetComponent<TextMeshProUGUI>();
+        textComponent2 = textGameObject2.GetComponent<TextMeshProUGUI>();
+
+        textComponent1.enabled = false;
+        textComponent2.enabled = false;
     }
 
     void Update()
     {
+        textComponent1.text = ("Blue Power Time Remaining: " + bPowerTime);
+        textComponent2.text = ("Red Power Time Remaining: " + rPowerTime);
+
         StaminaBar.fillAmount = Stamina / MaxStamina;
+
+        //Red Light intensity check
+        if (enemy1.Hunting == true)
+        {
+            RedLight.intensity = 1;
+        }
+
+        else
+        {
+            RedLight.intensity = 5.5f;
+        }
 
         // Crystal Powers
 
@@ -108,17 +151,26 @@ public class Player : MonoBehaviour
 
                 r_CD = 0;
 
-                rPowerTime = 0;
+                rDuration = 5;
             }
         }
 
         if (rPowerUsing)
         {
-            rPowerTime += Time.deltaTime;
+            textComponent2.enabled = true;
 
-            if (rPowerTime > 5)
+            RedLight.enabled = true;
+
+            rDuration -= (Time.deltaTime);
+            rPowerTime = Mathf.RoundToInt(rDuration);
+
+            if (rPowerTime < 0)
             {
+                textComponent2.enabled = false;
+                
                 rPowerUsing = false;
+
+                RedLight.enabled = false;
             }
         }
 
@@ -139,18 +191,21 @@ public class Player : MonoBehaviour
         {
             b_CD += Time.deltaTime;
 
-            bPowerTime += Time.deltaTime;
+            bDuration -= Time.deltaTime;
+            bPowerTime = Mathf.RoundToInt(bDuration);
 
             BlueBlock.transform.position = blockPosition;
 
-            if (bPowerTime > 20)
+            if (bPowerTime < 0)
             {
                 BlueBlock.transform.position = blockSpawner.position;
                 
                 BlueBlock.SetActive(false);
+
+                textComponent1.enabled = false;
             }
             
-            if (b_CD > 40)
+            if (b_CD > 30)
             {
                 bPowerReady = true;
             }
@@ -266,9 +321,7 @@ public class Player : MonoBehaviour
 
                     if (Input.GetKeyDown(KeyCode.Z))
                     {
-                        bPowerTime = 0;
-
-                        b_CD = 0;
+                        bDuration = 6;
 
                         animator.SetBool("BluePower", false);
 
@@ -277,6 +330,10 @@ public class Player : MonoBehaviour
                         BlueBlock.SetActive(true);
 
                         blockPosition = BlueBlock.transform.position;
+
+                        textComponent1.enabled = true;
+
+                        b_CD = 0;
                     }                          
                 }
             }

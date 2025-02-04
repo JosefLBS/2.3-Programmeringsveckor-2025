@@ -50,7 +50,7 @@ public class Enemy2 : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
+    {
         // Patrol and detection
         
         if (Detected == false && Hunting == false)
@@ -160,7 +160,7 @@ public class Enemy2 : MonoBehaviour
                 Searching = false;
             }
 
-            if (player.Sprinting == false && LOS)
+            if (player.Sprinting == false && LOS == false)
             {
                 agent.speed = SearchingSpeed;
             }
@@ -172,7 +172,7 @@ public class Enemy2 : MonoBehaviour
         {
             SearchTime += Time.deltaTime;
 
-            if (SearchTime > 20f)
+            if (SearchTime > 10f)
             {
                 Searching = false;
 
