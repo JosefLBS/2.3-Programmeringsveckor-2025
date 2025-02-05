@@ -127,11 +127,15 @@ public class Enemy2 : MonoBehaviour
                 LOS = true;
 
                 Searching = false;
+
+                audioSources[1].volume = 1;
             }
 
             if (hit.transform != PlayerGameObject.transform && player.Sprinting == false && Hunting == true)
             {
                 LOS = false;
+
+                audioSources[1].volume = 0.3f;
 
                 agent.speed = SearchingSpeed;
 

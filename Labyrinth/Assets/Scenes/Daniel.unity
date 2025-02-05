@@ -2695,18 +2695,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6162945470942177395, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
   m_PrefabInstance: {fileID: 345484327890801871}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1170755742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170755732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c25e9bd084acda34fb80d3d593177a2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1186681181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 711580800830793216, guid: 3a9444f58d0db1c4ca3cffd5e225f056, type: 3}
@@ -5079,6 +5067,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25e9bd084acda34fb80d3d593177a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &2078290426
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078290404}
+  m_Enabled: 0
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9d304a77da824df47af0f2068a0c582a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2096113287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5543,13 +5627,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4268505351750337137, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5665125549031145436, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
       propertyPath: m_Name
       value: Enemy1
       objectReference: {fileID: 0}
     - target: {fileID: 5665125549031145436, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6201312303026162433, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
       propertyPath: RedLayer
@@ -5570,10 +5658,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6162945470942177395, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1170755742}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
 --- !u!1001 &4027986028989046036
 PrefabInstance:
@@ -5813,6 +5898,10 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6328090301705370406, guid: a856431a1769e3d44a265252a9338181, type: 3}
+      propertyPath: m_Volume
+      value: 0.507
+      objectReference: {fileID: 0}
     - target: {fileID: 6964810224488070941, guid: a856431a1769e3d44a265252a9338181, type: 3}
       propertyPath: m_Name
       value: Enemy2
@@ -5847,7 +5936,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5639251666754212417, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416282722307028539, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
+      propertyPath: StunTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416282722307028539, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
+      propertyPath: JinnRange
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416282722307028539, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
+      propertyPath: NormalSpeed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7416282722307028539, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
       propertyPath: spawnerPoint
@@ -5905,6 +6006,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 126384219200054180, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
+      insertIndex: 9
+      addedObject: {fileID: 2078290426}
     - targetCorrespondingSourceObject: {fileID: 126384219200054180, guid: cdd3056e566b40e4f9f72256353dd7d3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2078290415}

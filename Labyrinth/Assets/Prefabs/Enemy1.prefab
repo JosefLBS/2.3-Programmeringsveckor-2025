@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 4268505351750337137}
   - component: {fileID: 2996910132855687756}
   - component: {fileID: 7599841000823956747}
+  - component: {fileID: 459167869412128603}
   m_Layer: 0
   m_Name: stalker.PV
   m_TagString: Enemy
@@ -165,6 +166,7 @@ MonoBehaviour:
   RoamingSpeed: 5
   HuntingSpeed: 18
   SearchingSpeed: 10
+  Hunting: 0
 --- !u!65 &8322635966790082433
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -418,3 +420,15 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &459167869412128603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162945470942177395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25e9bd084acda34fb80d3d593177a2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

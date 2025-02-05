@@ -106,7 +106,7 @@ public class Player : MonoBehaviour
     }
 
     void Update()
-    {
+    {      
         textComponent1.text = ("Blue Power Time Remaining: " + bPowerTime);
         textComponent2.text = ("Red Power Time Remaining: " + rPowerTime);
 

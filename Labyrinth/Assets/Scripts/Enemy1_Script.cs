@@ -56,6 +56,8 @@ public class Enemy1_Script : MonoBehaviour
         {
             if (hit.transform == PlayerGameObject.transform)
             {
+                audioSources[1].enabled = true;
+
                 if (Hunting == false)
                 {
                     Detected = true;
@@ -65,8 +67,6 @@ public class Enemy1_Script : MonoBehaviour
                     animator.SetBool("GracePeriod", true);
 
                     audioSources[0].enabled = true;
-
-                    audioSources[1].enabled = true;
                 }
 
                 else if (MonsterGrace == false)
@@ -76,6 +76,8 @@ public class Enemy1_Script : MonoBehaviour
             }
             else if (hit.transform != PlayerGameObject.transform)
             {
+                audioSources[1].enabled = false;
+
                 if (Detected == true)
                 {
                     agent.speed = SearchingSpeed;
@@ -117,8 +119,6 @@ public class Enemy1_Script : MonoBehaviour
             HuntTime = 0f;
 
             RedLayer.SetActive(false);
-
-            audioSources[1].enabled = false;
 
             Detected = false;
 

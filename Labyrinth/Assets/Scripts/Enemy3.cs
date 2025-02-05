@@ -31,8 +31,6 @@ public class Enemy3 : MonoBehaviour
     float Stun_timer;
     public float StunTime;
 
-    public float JinnRange; //Based of the Phasmophobia Jinn Ghost
-
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +45,7 @@ public class Enemy3 : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {       
         if (Activating == true)
         {
             audioSources[2].enabled = true;
@@ -64,16 +62,16 @@ public class Enemy3 : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
-        {         
+        {
             if (Stunned == false)
             {
                 if (hit.transform == PlayerGameObject.transform)
                 {
                     if (Activation_timer > ActivationTime)
                     {                     
-                        agent.speed = RunningSpeed;
-
                         audioSources[0].enabled = false;
+
+                        agent.speed = RunningSpeed;
 
                         audioSources[1].enabled = true;
                     }
@@ -110,12 +108,12 @@ public class Enemy3 : MonoBehaviour
 
                 Stun_timer = 0;
 
-                agent.speed = 0f;
+                agent.enabled = false;
             }
         }
 
         if (Stunned)
-        {
+        {            
             animator.SetBool("Stunned", true);
             
             audioSources[0].enabled = false;
@@ -126,6 +124,8 @@ public class Enemy3 : MonoBehaviour
             if (Stun_timer > StunTime)
             {
                 animator.SetBool("Stunned", false);
+
+                agent.enabled = trues;
                 
                 Stunned = false;
             }
