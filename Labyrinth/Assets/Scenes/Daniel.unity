@@ -5717,9 +5717,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1170755732}
     - target: {fileID: 1047354479456103599, guid: 7907de8126777d749a1c79627f0e446e, type: 3}
+      propertyPath: RedCrystal
+      value: 
+      objectReference: {fileID: 1290479857}
+    - target: {fileID: 1047354479456103599, guid: 7907de8126777d749a1c79627f0e446e, type: 3}
       propertyPath: StaminaBar
       value: 
       objectReference: {fileID: 793889035}
+    - target: {fileID: 1047354479456103599, guid: 7907de8126777d749a1c79627f0e446e, type: 3}
+      propertyPath: BlueCrystal
+      value: 
+      objectReference: {fileID: 2110888483}
     - target: {fileID: 1047354479456103599, guid: 7907de8126777d749a1c79627f0e446e, type: 3}
       propertyPath: textGameObject1
       value: 

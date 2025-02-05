@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
-    bool rCrystal = true;
+    bool rCrystal = false;
 
     bool rPowerReady = true;
     bool rPowerUsing = false;
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     float rDuration = 5;
     float r_CD = 0;
 
-    bool bCrystal = true;
+    bool bCrystal = false;
 
     bool bPowerReady = true;
     float bPowerTime = 6;
@@ -59,13 +59,15 @@ public class Player : MonoBehaviour
 
     public Transform blockSpawner;
     
-    // public GameObject BlueCrystal;
+    public GameObject BlueCrystal;
 
-    // public GameObject RedCrystal;
+    public GameObject RedCrystal;
 
     public Light PurpleLight;
 
     public Light RedLight;
+
+    public Light BlueLight;
 
     Vector3 blockPosition;
 
@@ -116,104 +118,109 @@ public class Player : MonoBehaviour
         if (enemy1.Hunting == true)
         {
             RedLight.intensity = 1;
+
+            BlueLight.intensity = 1;
         }
 
         else
         {
             RedLight.intensity = 5.5f;
+
+            BlueLight.intensity = 5.5f;
         }
 
         // Crystal Powers
 
+        // RED CRYSTAL
+
         if (rCrystal == true)
         {
             animator.SetBool("RedCristal", true);
+
+            if (rPowerReady == true && Purple == false)
+            {
+                animator.SetBool("Redpower", true);
+
+                if (Input.GetKey(KeyCode.X))
+                {
+                    rPowerUsing = true;
+
+                    rPowerReady = false;
+
+                    animator.SetBool("Redpower", false);
+
+                    r_CD = 0;
+
+                    rDuration = 5;
+                }
+            }
+
+            if (rPowerUsing)
+            {
+                textComponent2.enabled = true;
+
+                RedLight.enabled = true;
+
+                rDuration -= (Time.deltaTime);
+                rPowerTime = Mathf.RoundToInt(rDuration);
+
+                if (rPowerTime < 0)
+                {
+                    textComponent2.enabled = false;
+
+                    rPowerUsing = false;
+
+                    RedLight.enabled = false;
+                }
+            }
+
+            if (rPowerReady == false && rCrystal && rPowerUsing == false)
+            {
+                r_CD += Time.deltaTime;
+
+                if (r_CD > 30)
+                {
+                    rPowerReady = true;
+                }
+            }
         }
+
+        // Blue Crystal
 
         if (bCrystal == true)
         {
             animator.SetBool("BlueCrystal", true);
-        }
 
-        // RED CRYSTAL
-        
-        if (rPowerReady == true)
-        {
-            animator.SetBool("Redpower", true);
-
-            if (Input.GetKey(KeyCode.X))
+            if (bPowerReady == false)
             {
-                rPowerUsing = true;
+                b_CD += Time.deltaTime;
 
-                rPowerReady = false;
+                bDuration -= Time.deltaTime;
+                bPowerTime = Mathf.RoundToInt(bDuration);
 
-                animator.SetBool("Redpower", false);
+                BlueBlock.transform.position = blockPosition;
 
-                r_CD = 0;
+                if (bPowerTime < 0)
+                {
+                    BlueBlock.transform.position = blockSpawner.position;
 
-                rDuration = 5;
+                    BlueBlock.SetActive(false);
+
+                    BlueLight.enabled = false;
+
+                    textComponent1.enabled = false;
+                }
+
+                if (b_CD > 30)
+                {
+                    bPowerReady = true;
+                }
             }
-        }
 
-        if (rPowerUsing)
-        {
-            textComponent2.enabled = true;
-
-            RedLight.enabled = true;
-
-            rDuration -= (Time.deltaTime);
-            rPowerTime = Mathf.RoundToInt(rDuration);
-
-            if (rPowerTime < 0)
+            if (bPowerReady == true)
             {
-                textComponent2.enabled = false;
-                
-                rPowerUsing = false;
-
-                RedLight.enabled = false;
+                animator.SetBool("BluePower", true);
             }
-        }
-
-        if (rPowerReady == false && rCrystal && rPowerUsing == false)
-        {
-            r_CD += Time.deltaTime;
-
-            if (r_CD > 30)
-            {
-                rPowerReady = true;
-            }
-        }
-
-        // BLUE CRYSTAL
-
-
-        if (bPowerReady == false)
-        {
-            b_CD += Time.deltaTime;
-
-            bDuration -= Time.deltaTime;
-            bPowerTime = Mathf.RoundToInt(bDuration);
-
-            BlueBlock.transform.position = blockPosition;
-
-            if (bPowerTime < 0)
-            {
-                BlueBlock.transform.position = blockSpawner.position;
-                
-                BlueBlock.SetActive(false);
-
-                textComponent1.enabled = false;
-            }
-            
-            if (b_CD > 30)
-            {
-                bPowerReady = true;
-            }
-        }
-
-        if (bPowerReady == true)
-        {
-            animator.SetBool("BluePower", true);
         }
 
         if (Purple == true)
@@ -315,7 +322,7 @@ public class Player : MonoBehaviour
                     TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
                 }
 
-                if (bPowerReady)
+                if (bPowerReady && Purple == false)
                 {
                     // BluePower
 
@@ -326,6 +333,8 @@ public class Player : MonoBehaviour
                         animator.SetBool("BluePower", false);
 
                         bPowerReady = false;
+
+                        BlueLight.enabled = true;
 
                         BlueBlock.SetActive(true);
 
@@ -439,7 +448,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        /*/
+        // Crystal Collecting
         
         if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
         {
@@ -454,8 +463,6 @@ public class Player : MonoBehaviour
 
             RedCrystal.SetActive(false);
         }
-
-        /*/
     }
 
     private void OnTriggerEnter(Collider collision)

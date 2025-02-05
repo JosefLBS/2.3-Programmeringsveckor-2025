@@ -125,7 +125,7 @@ public class Enemy3 : MonoBehaviour
             {
                 animator.SetBool("Stunned", false);
 
-                agent.enabled = trues;
+                agent.enabled = true;
                 
                 Stunned = false;
             }
