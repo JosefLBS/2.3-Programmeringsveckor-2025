@@ -15,6 +15,9 @@ public class Enemy3 : MonoBehaviour
     [SerializeField]
     Animator animator;
 
+    [SerializeField]
+    BoxCollider boxCollider;
+
     bool Detected = false;
 
     public float RunningSpeed;
@@ -41,6 +44,8 @@ public class Enemy3 : MonoBehaviour
         animator = GetComponent<Animator>();
 
         agent.speed = 0f;
+
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -106,6 +111,8 @@ public class Enemy3 : MonoBehaviour
             {
                 Stunned = true;
 
+                boxCollider.enabled = false;
+
                 Stun_timer = 0;
 
                 agent.enabled = false;
@@ -128,6 +135,8 @@ public class Enemy3 : MonoBehaviour
                 agent.enabled = true;
                 
                 Stunned = false;
+
+                boxCollider.enabled = true;
             }
         }
     }

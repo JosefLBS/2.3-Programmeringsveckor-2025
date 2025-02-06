@@ -322,7 +322,7 @@ public class Player : MonoBehaviour
                     TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
                 }
 
-                if (bPowerReady && Purple == false)
+                if (bPowerReady && Purple == false  && bCrystal)
                 {
                     // BluePower
 
