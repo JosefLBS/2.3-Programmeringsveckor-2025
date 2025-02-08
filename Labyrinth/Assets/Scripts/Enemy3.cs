@@ -8,8 +8,6 @@ public class Enemy3 : MonoBehaviour
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
-    public Transform spawnerPoint;
-
     public GameObject PlayerGameObject;
 
     [SerializeField]
