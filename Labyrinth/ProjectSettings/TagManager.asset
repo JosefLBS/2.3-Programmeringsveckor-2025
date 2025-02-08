@@ -11,6 +11,10 @@ TagManager:
   - RedCrystal
   - OuterWall
   - BlueWall
+  - Item
+  - Radio
+  - ItemManager
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

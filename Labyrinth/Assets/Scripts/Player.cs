@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private float targetAngle = 0f;
     private float currentAngle = 0f;
 
-    private bool Freeze = false; //Freezes Inputs
+    public bool Freeze = false; //Freezes Inputs
 
     bool TurnRight = false;
     bool TurnLeft = false;
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     float rotationSpeed = 5;
     float movementSpeed = 5;
 
-    float Stamina = 100;
+    public float Stamina = 100;
 
     public bool Sprinting = false;
     bool StopSprinting = false;
@@ -94,11 +94,17 @@ public class Player : MonoBehaviour
 
     public GameObject ENEMY1;
 
+    Items items;
+
+    public GameObject ItemManager;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
 
         enemy1 = ENEMY1.GetComponent<Enemy1_Script>();
+
+        items = ItemManager.GetComponent<Items>();
 
         textComponent1 = textGameObject1.GetComponent<TextMeshProUGUI>();
         textComponent2 = textGameObject2.GetComponent<TextMeshProUGUI>();
@@ -311,46 +317,47 @@ public class Player : MonoBehaviour
                 targetAngle = currentAngle + 180f;
             }
 
-            if (Physics.Raycast(transform.position, transform.forward, 5) == false)
-            {
-                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-                {
-                    Freeze = true;
-
-                    Moving = true;
-
-                    TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
-                }
-
-                if (bPowerReady && Purple == false  && bCrystal)
-                {
-                    // BluePower
-
-                    if (Input.GetKeyDown(KeyCode.Z))
-                    {
-                        bDuration = 6;
-
-                        animator.SetBool("BluePower", false);
-
-                        bPowerReady = false;
-
-                        BlueLight.enabled = true;
-
-                        BlueBlock.SetActive(true);
-
-                        blockPosition = BlueBlock.transform.position;
-
-                        textComponent1.enabled = true;
-
-                        b_CD = 0;
-                    }                          
-                }
-            }
 
             RaycastHit hit;
-            if (rPowerUsing)
+            if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
             {
-                if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
+                if (Physics.Raycast(transform.position, transform.forward, 5) == false || hit.collider.CompareTag("Item") == true || hit.collider.CompareTag("Radio") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("CheckPoint"))
+                {
+                    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                    {
+                        Freeze = true;
+
+                        Moving = true;
+
+                        TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                    }
+
+                    if (bPowerReady && Purple == false && bCrystal)
+                    {
+                        // BluePower
+
+                        if (Input.GetKeyDown(KeyCode.Z))
+                        {
+                            bDuration = 6;
+
+                            animator.SetBool("BluePower", false);
+
+                            bPowerReady = false;
+
+                            BlueLight.enabled = true;
+
+                            BlueBlock.SetActive(true);
+
+                            blockPosition = BlueBlock.transform.position;
+
+                            textComponent1.enabled = true;
+
+                            b_CD = 0;
+                        }
+                    }
+                }
+
+                if (rPowerUsing)
                 {
                     if (hit.collider.CompareTag("OuterWall") == false && Physics.Raycast(transform.position, transform.forward, 5) == true)
                     {
@@ -469,7 +476,10 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            gameObject.transform.position = Spawn.position;
+            if (items.RadioUsing == false)
+            {
+                gameObject.transform.position = Spawn.position;
+            }
         }
     }
 }

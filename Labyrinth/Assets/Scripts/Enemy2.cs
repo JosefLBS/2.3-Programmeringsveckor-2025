@@ -34,6 +34,10 @@ public class Enemy2 : MonoBehaviour
 
     AudioSource[] audioSources;
 
+    Items items;
+
+    public GameObject ItemManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,144 +50,168 @@ public class Enemy2 : MonoBehaviour
         NextPoint = Point1.position;
 
         agent.speed = PatrolSpeed;
+
+        items = ItemManager.GetComponent<Items>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Patrol and detection
-        
-        if (Detected == false && Hunting == false)
+        if (items.RadioUsing == true)
         {
-            audioSources[1].enabled = false;
-            
-            agent.destination = NextPoint;
+            agent.destination = items.RadioPosition;
 
-            agent.speed = PatrolSpeed;
+            agent.speed = LOS_Speed;
+        }
 
-            if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
+        if (items.RadioUsing == false)
+        {
+            // Patrol and detection
+
+            if (Detected == false && Hunting == false)
             {
-                if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
+                audioSources[1].enabled = false;
+
+                agent.destination = NextPoint;
+
+                agent.speed = PatrolSpeed;
+
+                if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
                 {
-                    Detected = true;
-                }
-
-                else
-                {
-                    audioSources[0].enabled = true;
-                }
-            }
-        }
-        
-        if (gameObject.transform.position.x == Point1.position.x && gameObject.transform.position.z == Point1.position.z)
-        {
-            NextPoint = Point2.position;
-        }
-
-        if (gameObject.transform.position.x == Point2.position.x && gameObject.transform.position.z == Point2.position.z)
-        {
-            NextPoint = Point3.position;
-        }
-
-        if (gameObject.transform.position.x == Point3.position.x && gameObject.transform.position.z == Point3.position.z)
-        {
-            NextPoint = Point1.position;
-        }
-
-        // After Being Detected
-        
-        if (Detected == true)
-        {
-            audioSources[0].enabled = false;
-            audioSources[1].enabled = true;
-            
-            if (Hunting == false || LOS == true)
-            {
-                agent.destination = PlayerPosition.position;
-            }
-
-            if (Hunting == false)
-            {
-                agent.speed = LOS_Speed;
-            }
-
-            if (Hunting == true && LOS == false && player.Sprinting == false)
-            {
-                agent.speed = SearchingSpeed;
-            }
-        }
-
-        // Line Of Sigth --> LOS
-        
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
-        {
-            if (hit.transform == PlayerGameObject.transform)
-            {
-                Hunting = true;
-
-                Detected = true;
-
-                LOS = true;
-
-                Searching = false;
-
-                audioSources[1].volume = 1;
-            }
-
-            if (hit.transform != PlayerGameObject.transform && player.Sprinting == false && Hunting == true)
-            {
-                LOS = false;
-
-                audioSources[1].volume = 0.3f;
-
-                agent.speed = SearchingSpeed;
-
-                if (transform.position.x == agent.destination.x && transform.position.z == agent.destination.z)
-                {
-                    if (Searching == false)
+                    if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
                     {
-                        SearchTime = 0f;
+                        Detected = true;
                     }
 
-                    Searching = true;
+                    else
+                    {
+                        audioSources[0].enabled = true;
+                    }
+                }
+            }
+
+            if (gameObject.transform.position.x == Point1.position.x && gameObject.transform.position.z == Point1.position.z)
+            {
+                NextPoint = Point2.position;
+            }
+
+            if (gameObject.transform.position.x == Point2.position.x && gameObject.transform.position.z == Point2.position.z)
+            {
+                NextPoint = Point3.position;
+            }
+
+            if (gameObject.transform.position.x == Point3.position.x && gameObject.transform.position.z == Point3.position.z)
+            {
+                NextPoint = Point1.position;
+            }
+
+            // After Being Detected
+
+            if (Detected == true)
+            {
+                audioSources[0].enabled = false;
+                audioSources[1].enabled = true;
+
+                if (Hunting == false || LOS == true)
+                {
+                    agent.destination = PlayerPosition.position;
+                }
+
+                if (Hunting == false)
+                {
+                    agent.speed = LOS_Speed;
+                }
+
+                if (Hunting == true && LOS == false && player.Sprinting == false)
+                {
+                    agent.speed = SearchingSpeed;
+                }
+            }
+
+            // Line Of Sigth --> LOS
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
+            {
+                if (hit.transform == PlayerGameObject.transform)
+                {
+                    Hunting = true;
+
+                    Detected = true;
+
+                    LOS = true;
+
+                    Searching = false;
+
+                    audioSources[1].volume = 1;
+                }
+
+                if (hit.transform != PlayerGameObject.transform && player.Sprinting == false && Hunting == true)
+                {
+                    LOS = false;
+
+                    audioSources[1].volume = 0.3f;
+
+                    agent.speed = SearchingSpeed;
+
+                    if (transform.position.x == agent.destination.x && transform.position.z == agent.destination.z)
+                    {
+                        if (Searching == false)
+                        {
+                            SearchTime = 0f;
+                        }
+
+                        Searching = true;
+                    }
+                }
+            }
+
+            // During Hunts
+
+            if (Hunting)
+            {
+                if (player.Sprinting && player.Moving)
+                {
+                    agent.destination = PlayerPosition.position;
+
+                    agent.speed = LOS_Speed;
+
+                    Searching = false;
+                }
+
+                if (player.Sprinting == false && LOS == false)
+                {
+                    agent.speed = SearchingSpeed;
+                }
+            }
+
+            // While Searching
+
+            if (Searching == true)
+            {
+                SearchTime += Time.deltaTime;
+
+                if (SearchTime > 10f)
+                {
+                    Searching = false;
+
+                    Detected = false;
+
+                    Hunting = false;
                 }
             }
         }
+    }
 
-        // During Hunts
-
-        if (Hunting)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Radio")
         {
-            if (player.Sprinting && player.Moving)
-            {
-                agent.destination = PlayerPosition.position;
+            print("Collision");
 
-                agent.speed = LOS_Speed;
+            items.RadioUsing = false;
 
-                Searching = false;
-            }
-
-            if (player.Sprinting == false && LOS == false)
-            {
-                agent.speed = SearchingSpeed;
-            }
-        }
-
-        // While Searching
-        
-        if (Searching == true)
-        {
-            SearchTime += Time.deltaTime;
-
-            if (SearchTime > 10f)
-            {
-                Searching = false;
-
-                Detected = false;
-
-                Hunting = false;
-            }
+            Destroy(other.gameObject);
         }
     }
 }
