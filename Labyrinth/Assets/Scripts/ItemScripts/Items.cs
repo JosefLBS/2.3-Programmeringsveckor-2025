@@ -49,8 +49,13 @@ public class Items : MonoBehaviour
 
     public Vector3 RadioPosition;
 
+    [SerializeField]
     public GameObject EnergyBar_Item;
+
+    [SerializeField]
     public GameObject Radio_Item;
+
+    [SerializeField]
     public GameObject Key_Item;
 
 

@@ -9,7 +9,7 @@ public class Item_1 : MonoBehaviour
 
     [SerializeField] GameObject ItemManager;
 
-    bool Triggered = false;
+    public bool Triggered = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +21,10 @@ public class Item_1 : MonoBehaviour
 
     private void Update()
     {
-        if (items.OnItem1 == true && Triggered == true)
+        if (Triggered == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
-            {
+            {              
                 Triggered = false;
                 
                 Destroy(gameObject);
