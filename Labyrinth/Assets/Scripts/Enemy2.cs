@@ -38,6 +38,8 @@ public class Enemy2 : MonoBehaviour
 
     public GameObject ItemManager;
 
+    bool Crying = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +68,16 @@ public class Enemy2 : MonoBehaviour
 
         if (items.RadioUsing == false)
         {
+            if (Crying == true)
+            {
+                audioSources[2].enabled = true;
+            }
+
+            if (Crying == false)
+            {
+                audioSources[2].enabled = false;
+            }
+
             // Patrol and detection
 
             if (Detected == false && Hunting == false)
@@ -76,16 +88,19 @@ public class Enemy2 : MonoBehaviour
 
                 agent.speed = PatrolSpeed;
 
-                if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
+                if (Crying == false)
                 {
-                    if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
+                    if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
                     {
-                        Detected = true;
-                    }
+                        if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
+                        {
+                            Detected = true;
+                        }
 
-                    else
-                    {
-                        audioSources[0].enabled = true;
+                        else
+                        {
+                            audioSources[0].enabled = true;
+                        }
                     }
                 }
             }
@@ -93,16 +108,22 @@ public class Enemy2 : MonoBehaviour
             if (gameObject.transform.position.x == Point1.position.x && gameObject.transform.position.z == Point1.position.z)
             {
                 NextPoint = Point2.position;
+
+                Crying = false;
             }
 
             if (gameObject.transform.position.x == Point2.position.x && gameObject.transform.position.z == Point2.position.z)
             {
                 NextPoint = Point3.position;
+
+                Crying = false;
             }
 
             if (gameObject.transform.position.x == Point3.position.x && gameObject.transform.position.z == Point3.position.z)
             {
                 NextPoint = Point1.position;
+
+                Crying = false;
             }
 
             // After Being Detected
@@ -137,11 +158,15 @@ public class Enemy2 : MonoBehaviour
                 {
                     Hunting = true;
 
+                    Crying = false;
+
                     Detected = true;
 
                     LOS = true;
 
                     Searching = false;
+
+                    audioSources[1].enabled = true;
 
                     audioSources[1].volume = 1;
                 }
@@ -198,6 +223,8 @@ public class Enemy2 : MonoBehaviour
                     Detected = false;
 
                     Hunting = false;
+
+                    Crying = true;
                 }
             }
         }
@@ -207,8 +234,6 @@ public class Enemy2 : MonoBehaviour
     {
         if (other.tag == "Radio")
         {
-            print("Collision");
-
             items.RadioUsing = false;
 
             Destroy(other.gameObject);

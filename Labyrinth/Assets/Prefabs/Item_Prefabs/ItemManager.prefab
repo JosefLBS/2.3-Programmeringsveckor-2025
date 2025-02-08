@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6745750465181065942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 739416404958512771}
+  - component: {fileID: 5641214629468276828}
+  m_Layer: 0
+  m_Name: ItemManager
+  m_TagString: ItemManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &739416404958512771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745750465181065942}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5641214629468276828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745750465181065942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcb3ef6ae4b47a4abbbc692906aa55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RedColor: {r: 1, g: 0, b: 0, a: 1}
+  GreenColor: {r: 0.07450981, g: 1, b: 0, a: 1}
+  PlayerGameObject: {fileID: 0}
+  MovingRadio: {fileID: 2003992209254079519, guid: 6d734507926f5aa41a1b6f2745707b2c, type: 3}
+  Slot1: {fileID: 0}
+  Slot2: {fileID: 0}
+  Slot3: {fileID: 0}
+  EnergyBar1: {fileID: 0}
+  Radio1: {fileID: 0}
+  Key1: {fileID: 0}
+  EnergyBar2: {fileID: 0}
+  Radio2: {fileID: 0}
+  Key2: {fileID: 0}
+  EnergyBar3: {fileID: 0}
+  Radio3: {fileID: 0}
+  Key3: {fileID: 0}
+  OnItem1: 0
+  OnItem2: 0
+  OnItem3: 0
+  RadioUsing: 0
+  RadioPosition: {x: 0, y: 0, z: 0}
+  EnergyBar_Item: {fileID: 6457094245565109263, guid: 7a17310277c034f49a50a325a029ea00, type: 3}
+  Radio_Item: {fileID: 9171911236029486140, guid: a3d0e483f65376745878055414cb6baa, type: 3}
+  Key_Item: {fileID: 1212967914327331088, guid: 1e5169e18ff114c4785ee08209972f39, type: 3}
