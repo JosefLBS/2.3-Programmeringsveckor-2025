@@ -8,7 +8,9 @@ public class Enemy1_Script : MonoBehaviour
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
-    public Transform spawnerPoint;
+    public GameObject RestPoint;
+
+    public bool napTime;
 
     public GameObject PlayerGameObject;
 
@@ -35,6 +37,10 @@ public class Enemy1_Script : MonoBehaviour
 
     [SerializeField] BoxCollider boxCollider;
 
+    AggroBoxes Aggro;
+
+    public GameObject aggresive;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,117 +53,139 @@ public class Enemy1_Script : MonoBehaviour
         items = ItemManager.GetComponent<Items>();
 
         boxCollider = GetComponent<BoxCollider>();
+
+        Aggro = aggresive.GetComponent<AggroBoxes>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        print(items.RadioUsing);
-        
-        if (items.RadioUsing == true)
+        if (Aggro.Aggresive == false)
         {
-            agent.destination = items.RadioPosition;
+            agent.destination = RestPoint.transform.position;
 
-            agent.speed = HuntingSpeed;
+            agent.speed = 15;
         }
         
-        if (items.RadioUsing == false)
+        if (Aggro.Aggresive == true)
         {
-            agent.destination = PlayerPosition.position;
-
-            if (Hunting)
+            if (items.RadioUsing == true)
             {
-                HuntTime += Time.deltaTime;
+                agent.destination = items.RadioPosition;
 
-                RedLayer.SetActive(true);
+                agent.speed = HuntingSpeed;
             }
 
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
+            if (napTime == true)
             {
-                if (hit.transform == PlayerGameObject.transform)
+                agent.destination = RestPoint.transform.position;
+
+                agent.speed = 15;
+
+                if (gameObject.transform.position.x == RestPoint.transform.position.x && gameObject.transform.position.z == RestPoint.transform.position.z)
                 {
-                    audioSources[1].enabled = true;
+                    napTime = false;
+                }
+            }
+
+            if (items.RadioUsing == false)
+            {
+                if (Hunting)
+                {
+                    HuntTime += Time.deltaTime;
+
+                    RedLayer.SetActive(true);
+                }
+
+                if (napTime == false)
+                {
+                    agent.destination = PlayerPosition.position;
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
+                    {
+                        if (hit.transform == PlayerGameObject.transform)
+                        {
+                            audioSources[1].enabled = true;
+
+                            if (Hunting == false)
+                            {
+                                Detected = true;
+
+                                agent.speed = 0f;
+
+                                animator.SetBool("GracePeriod", true);
+
+                                audioSources[0].enabled = true;
+                            }
+
+                            else if (MonsterGrace == false)
+                            {
+                                agent.speed = HuntingSpeed;
+                            }
+                        }
+                        else if (hit.transform != PlayerGameObject.transform)
+                        {
+                            audioSources[1].enabled = false;
+
+                            if (Detected == true)
+                            {
+                                agent.speed = SearchingSpeed;
+                            }
+
+                            else if (Detected == false)
+                            {
+                                agent.speed = RoamingSpeed;
+                            }
+                        }
+                    }
 
                     if (Hunting == false)
                     {
-                        Detected = true;
+                        if (Detected == true)
+                        {
+                            HuntTime = 0;
 
-                        agent.speed = 0f;
+                            Hunting = true;
 
-                        animator.SetBool("GracePeriod", true);
-
-                        audioSources[0].enabled = true;
+                            MonsterGrace = true;
+                        }
                     }
 
-                    else if (MonsterGrace == false)
+                    if (HuntTime > 1)
                     {
-                        agent.speed = HuntingSpeed;
+                        MonsterGrace = false;
+
+                        animator.SetBool("GracePeriod", false);
+                    }
+
+                    if (HuntTime > 4)
+                    {
+                        audioSources[0].enabled = false;
+                    }
+
+                    if (HuntTime > 21)
+                    {
+                        HuntTime = 0f;
+
+                        RedLayer.SetActive(false);
+
+                        Detected = false;
+
+                        Hunting = false;
+
+                        agent.speed = 5f;
+
+                        napTime = true;
                     }
                 }
-                else if (hit.transform != PlayerGameObject.transform)
-                {
-                    audioSources[1].enabled = false;
-
-                    if (Detected == true)
-                    {
-                        agent.speed = SearchingSpeed;
-                    }
-
-                    else if (Detected == false)
-                    {
-                        agent.speed = RoamingSpeed;
-                    }
-                }
-            }
-
-            if (Hunting == false)
-            {
-                if (Detected == true)
-                {
-                    HuntTime = 0;
-
-                    Hunting = true;
-
-                    MonsterGrace = true;
-                }
-            }
-
-            if (HuntTime > 1)
-            {
-                MonsterGrace = false;
-
-                animator.SetBool("GracePeriod", false);
-            }
-
-            if (HuntTime > 4)
-            {
-                audioSources[0].enabled = false;
-            }
-
-            if (HuntTime > 21)
-            {
-                HuntTime = 0f;
-
-                RedLayer.SetActive(false);
-
-                Detected = false;
-
-                Hunting = false;
-
-                agent.speed = 5f;
-
-                gameObject.transform.position = spawnerPoint.position;
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Radio")
         {
-            print("Collision");
-
             items.RadioUsing = false;
 
             Destroy(other.gameObject);
