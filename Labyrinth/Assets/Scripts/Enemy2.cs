@@ -40,6 +40,10 @@ public class Enemy2 : MonoBehaviour
 
     bool Crying = false;
 
+    AggroBoxes Aggro;
+
+    public GameObject aggresive;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,182 +58,201 @@ public class Enemy2 : MonoBehaviour
         agent.speed = PatrolSpeed;
 
         items = ItemManager.GetComponent<Items>();
+
+        Aggro = aggresive.GetComponent<AggroBoxes>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (items.RadioUsing == true)
+    {        
+        if (Aggro.Aggresive == false)
         {
-            agent.destination = items.RadioPosition;
+            NextPoint = Point1.position;
+
+            agent.destination = NextPoint;
 
             agent.speed = LOS_Speed;
+
+            audioSources[0].enabled = false;
+
+            audioSources[1].enabled = false;
+
+            audioSources[2].enabled = false;
         }
-
-        if (items.RadioUsing == false)
+        
+        if (Aggro.Aggresive == true)
         {
-            if (Crying == true)
+            if (items.RadioUsing == true)
             {
-                audioSources[2].enabled = true;
+                agent.destination = items.RadioPosition;
+
+                agent.speed = LOS_Speed;
             }
 
-            if (Crying == false)
+            if (items.RadioUsing == false)
             {
-                audioSources[2].enabled = false;
-            }
-
-            // Patrol and detection
-
-            if (Detected == false && Hunting == false)
-            {
-                audioSources[1].enabled = false;
-
-                agent.destination = NextPoint;
-
-                agent.speed = PatrolSpeed;
+                if (Crying == true)
+                {
+                    audioSources[2].enabled = true;
+                }
 
                 if (Crying == false)
                 {
-                    if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
-                    {
-                        if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
-                        {
-                            Detected = true;
-                        }
+                    audioSources[2].enabled = false;
+                }
 
-                        else
+                // Patrol and detection
+
+                if (Detected == false && Hunting == false)
+                {
+                    audioSources[1].enabled = false;
+
+                    agent.destination = NextPoint;
+
+                    agent.speed = PatrolSpeed;
+
+                    if (Crying == false)
+                    {
+                        if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < HearingRange)
                         {
-                            audioSources[0].enabled = true;
+                            if (Vector3.Distance(transform.position, PlayerGameObject.transform.position) < DetectionRange)
+                            {
+                                Detected = true;
+                            }
+
+                            else
+                            {
+                                audioSources[0].enabled = true;
+                            }
                         }
                     }
                 }
-            }
 
-            if (gameObject.transform.position.x == Point1.position.x && gameObject.transform.position.z == Point1.position.z)
-            {
-                NextPoint = Point2.position;
-
-                Crying = false;
-            }
-
-            if (gameObject.transform.position.x == Point2.position.x && gameObject.transform.position.z == Point2.position.z)
-            {
-                NextPoint = Point3.position;
-
-                Crying = false;
-            }
-
-            if (gameObject.transform.position.x == Point3.position.x && gameObject.transform.position.z == Point3.position.z)
-            {
-                NextPoint = Point1.position;
-
-                Crying = false;
-            }
-
-            // After Being Detected
-
-            if (Detected == true)
-            {
-                audioSources[0].enabled = false;
-                audioSources[1].enabled = true;
-
-                if (Hunting == false || LOS == true)
+                if (gameObject.transform.position.x == Point1.position.x && gameObject.transform.position.z == Point1.position.z)
                 {
-                    agent.destination = PlayerPosition.position;
-                }
-
-                if (Hunting == false)
-                {
-                    agent.speed = LOS_Speed;
-                }
-
-                if (Hunting == true && LOS == false && player.Sprinting == false)
-                {
-                    agent.speed = SearchingSpeed;
-                }
-            }
-
-            // Line Of Sigth --> LOS
-
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
-            {
-                if (hit.transform == PlayerGameObject.transform)
-                {
-                    Hunting = true;
+                    NextPoint = Point2.position;
 
                     Crying = false;
+                }
 
-                    Detected = true;
+                if (gameObject.transform.position.x == Point2.position.x && gameObject.transform.position.z == Point2.position.z)
+                {
+                    NextPoint = Point3.position;
 
-                    LOS = true;
+                    Crying = false;
+                }
 
-                    Searching = false;
+                if (gameObject.transform.position.x == Point3.position.x && gameObject.transform.position.z == Point3.position.z)
+                {
+                    NextPoint = Point1.position;
 
+                    Crying = false;
+                }
+
+                // After Being Detected
+
+                if (Detected == true)
+                {
+                    audioSources[0].enabled = false;
                     audioSources[1].enabled = true;
 
-                    audioSources[1].volume = 1;
-                }
-
-                if (hit.transform != PlayerGameObject.transform && player.Sprinting == false && Hunting == true)
-                {
-                    LOS = false;
-
-                    audioSources[1].volume = 0.3f;
-
-                    agent.speed = SearchingSpeed;
-
-                    if (transform.position.x == agent.destination.x && transform.position.z == agent.destination.z)
+                    if (Hunting == false || LOS == true)
                     {
-                        if (Searching == false)
-                        {
-                            SearchTime = 0f;
-                        }
+                        agent.destination = PlayerPosition.position;
+                    }
 
-                        Searching = true;
+                    if (Hunting == false)
+                    {
+                        agent.speed = LOS_Speed;
+                    }
+
+                    if (Hunting == true && LOS == false && player.Sprinting == false)
+                    {
+                        agent.speed = SearchingSpeed;
                     }
                 }
-            }
 
-            // During Hunts
+                // Line Of Sigth --> LOS
 
-            if (Hunting)
-            {
-                if (player.Sprinting && player.Moving)
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, (PlayerGameObject.transform.position - transform.position), out hit, Mathf.Infinity))
                 {
-                    agent.destination = PlayerPosition.position;
+                    if (hit.transform == PlayerGameObject.transform)
+                    {
+                        Hunting = true;
 
-                    agent.speed = LOS_Speed;
+                        Crying = false;
 
-                    Searching = false;
+                        Detected = true;
+
+                        LOS = true;
+
+                        Searching = false;
+
+                        audioSources[1].enabled = true;
+
+                        audioSources[1].volume = 1;
+                    }
+
+                    if (hit.transform != PlayerGameObject.transform && player.Sprinting == false && Hunting == true)
+                    {
+                        LOS = false;
+
+                        audioSources[1].volume = 0.3f;
+
+                        agent.speed = SearchingSpeed;
+
+                        if (transform.position.x == agent.destination.x && transform.position.z == agent.destination.z)
+                        {
+                            if (Searching == false)
+                            {
+                                SearchTime = 0f;
+                            }
+
+                            Searching = true;
+                        }
+                    }
                 }
 
-                if (player.Sprinting == false && LOS == false)
+                // During Hunts
+
+                if (Hunting)
                 {
-                    agent.speed = SearchingSpeed;
+                    if (player.Sprinting && player.Moving)
+                    {
+                        agent.destination = PlayerPosition.position;
+
+                        agent.speed = LOS_Speed;
+
+                        Searching = false;
+                    }
+
+                    if (player.Sprinting == false && LOS == false)
+                    {
+                        agent.speed = SearchingSpeed;
+                    }
                 }
-            }
 
-            // While Searching
+                // While Searching
 
-            if (Searching == true)
-            {
-                SearchTime += Time.deltaTime;
-
-                if (SearchTime > 10f)
+                if (Searching == true)
                 {
-                    Searching = false;
+                    SearchTime += Time.deltaTime;
 
-                    Detected = false;
+                    if (SearchTime > 10f)
+                    {
+                        Searching = false;
 
-                    Hunting = false;
+                        Detected = false;
 
-                    Crying = true;
+                        Hunting = false;
+
+                        Crying = true;
+                    }
                 }
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Radio")

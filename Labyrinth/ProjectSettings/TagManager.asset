@@ -15,6 +15,7 @@ TagManager:
   - Radio
   - ItemManager
   - CheckPoint
+  - Structure
   layers:
   - Default
   - TransparentFX

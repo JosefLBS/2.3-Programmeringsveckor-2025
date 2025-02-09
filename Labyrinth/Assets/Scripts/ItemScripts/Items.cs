@@ -17,7 +17,7 @@ public class Items : MonoBehaviour
 
     public GameObject MovingRadio;
 
-    int[] items = new int[2];
+    int[] items = new int[3];
 
     [SerializeField] private Image Slot1;
     [SerializeField] private Image Slot2;
@@ -215,27 +215,243 @@ public class Items : MonoBehaviour
         }
 
         // On SLOT TWO
-        
+
         if (HoveringSlot2)
         {
             Slot2.color = RedColor;
+
+            // What Item Is It??
+
+            if (OnItem1)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[1] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[1] = 1;
+
+                    EnergyBar2.enabled = true;
+
+                    OnItem1 = false;
+                }
+            }
+
+            if (OnItem2)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[1] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[1] = 2;
+
+                    Radio2.enabled = true;
+
+                    OnItem2 = false;
+                }
+            }
+
+            if (OnItem3)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[1] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[1] = 3;
+
+                    Key2.enabled = true;
+
+                    OnItem3 = false;
+                }
+            }
+
+            // Using The Item 
+
+            if (items[1] == 1)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    player.Stamina = 100;
+
+                    EnergyBar2.enabled = false;
+
+                    items[1] = 0;
+                }
+            }
+
+            if (items[1] != 1)
+            {
+                EnergyBar2.enabled = false;
+            }
+
+            if (items[1] == 2)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    RadioUsing = true;
+
+                    Instantiate(MovingRadio, new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z), Quaternion.identity);
+
+                    RadioPosition = new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z);
+
+                    Radio2.enabled = false;
+                }
+            }
+
+            if (items[1] != 2)
+            {
+                Radio2.enabled = false;
+            }
+
+            if (items[1] == 3)
+            {
+                player.Key = true;
+            }
+
+            if (items[1] != 3)
+            {
+                player.Key = false;
+
+                Key2.enabled = false;
+            }
         }
 
         else
         {
             Slot2.color = GreenColor;
+
+            if (items[1] == 3)
+            {
+                player.Key = false;
+            }
         }
 
         // On SLOT THREE
-        
+
         if (HoveringSlot3)
         {
             Slot3.color = RedColor;
+
+            // What Item Is It??
+
+            if (OnItem1)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[2] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[2] = 1;
+
+                    EnergyBar3.enabled = true;
+
+                    OnItem1 = false;
+                }
+            }
+
+            if (OnItem2)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[2] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[2] = 2;
+
+                    Radio3.enabled = true;
+
+                    OnItem2 = false;
+                }
+            }
+
+            if (OnItem3)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (items[2] != 0)
+                    {
+                        Replace();
+                    }
+
+                    items[2] = 3;
+
+                    Key3.enabled = true;
+
+                    OnItem3 = false;
+                }
+            }
+
+            // Using The Item 
+
+            if (items[2] == 1)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    player.Stamina = 100;
+
+                    EnergyBar3.enabled = false;
+
+                    items[2] = 0;
+                }
+            }
+
+            if (items[2] != 1)
+            {
+                EnergyBar3.enabled = false;
+            }
+
+            if (items[2] == 2)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    RadioUsing = true;
+
+                    Instantiate(MovingRadio, new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z), Quaternion.identity);
+
+                    RadioPosition = new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z);
+
+                    Radio3.enabled = false;
+                }
+            }
+
+            if (items[2] != 2)
+            {
+                Radio3.enabled = false;
+            }
+
+            if (items[2] == 3)
+            {
+                player.Key = true;
+            }
+
+            if (items[2] != 3)
+            {
+                player.Key = false;
+
+                Key3.enabled = false;
+            }
         }
 
         else
         {
             Slot3.color = GreenColor;
+
+            if (items[2] == 3)
+            {
+                player.Key = false;
+            }
         }
     }
 

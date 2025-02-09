@@ -98,6 +98,8 @@ public class Player : MonoBehaviour
 
     public GameObject ItemManager;
 
+    public Material WallMaterial;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -321,7 +323,7 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
             {
-                if (Physics.Raycast(transform.position, transform.forward, 5) == false || hit.collider.CompareTag("Item") == true || hit.collider.CompareTag("Radio") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("CheckPoint"))
+                if (Physics.Raycast(transform.position, transform.forward, 5) == false || hit.collider.CompareTag("Item") == true || hit.collider.CompareTag("Radio") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("CheckPoint")  || hit.collider.CompareTag("Structure"))
                 {
                     if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
                     {
