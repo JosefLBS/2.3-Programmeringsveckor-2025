@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     Vector3 TargetPosition;
 
-    bool rCrystal = false;
+    public bool rCrystal = false;
 
     bool rPowerReady = true;
     bool rPowerUsing = false;
@@ -41,14 +41,14 @@ public class Player : MonoBehaviour
     float rDuration = 5;
     float r_CD = 0;
 
-    bool bCrystal = false;
+    public bool bCrystal = false;
 
     bool bPowerReady = true;
     float bPowerTime = 6;
     float bDuration = 6;
     float b_CD = 0;
 
-    bool Purple = false;
+    public bool Purple = false;
 
     public bool Key = false;
 
@@ -100,6 +100,8 @@ public class Player : MonoBehaviour
 
     public Material WallMaterial;
 
+    public GameObject MovingWall;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -138,6 +140,16 @@ public class Player : MonoBehaviour
         }
 
         // Crystal Powers
+
+        if (rCrystal && bCrystal)
+        {
+            MovingWall.SetActive(false);
+        }
+
+        if (Purple == true)
+        {
+            MovingWall.SetActive(true);
+        }
 
         // RED CRYSTAL
 
@@ -482,6 +494,19 @@ public class Player : MonoBehaviour
             {
                 gameObject.transform.position = Spawn.position;
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Wall" && rPowerUsing == false)
+        {
+            transform.position = Spawn.position;
+
+            TargetPosition = Spawn.position;
+
+            Freeze = false;
+
         }
     }
 }

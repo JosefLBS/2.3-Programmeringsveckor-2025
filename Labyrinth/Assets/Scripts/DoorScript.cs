@@ -45,7 +45,7 @@ public class DoorScript : MonoBehaviour
             {
                 if (hit.transform == gameObject.transform)
                 {
-                    if (Input.GetKeyDown(KeyCode.Space) && player.Key == true)
+                    if (Input.GetKeyDown(KeyCode.F) && player.Key == true)
                     {
                         ChildDoor.transform.position -= new Vector3(0, 10f, 0);
                     }

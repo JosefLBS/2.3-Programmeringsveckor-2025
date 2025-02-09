@@ -68,6 +68,14 @@ public class Items : MonoBehaviour
     // Update is called once per frame
     void Update() 
     {      
+        
+        if (player.Purple == true)
+        {
+            items[0] = 0;
+            items[1] = 0;
+            items[2] = 0;
+        }
+        
         // Switching Slots
         
         if (Input.GetKeyDown(KeyCode.Alpha1))
