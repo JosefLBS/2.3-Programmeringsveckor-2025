@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class DoorScript : MonoBehaviour
 {
+    // Daniel
+
     public float Closetime;
     float Timer = 0;
 

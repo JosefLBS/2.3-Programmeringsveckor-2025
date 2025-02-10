@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Item_1 : MonoBehaviour
 {
+    // Daniel && Josef
+    
     Items items;
 
     [SerializeField] GameObject ItemManager;

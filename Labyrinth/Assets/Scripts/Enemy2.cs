@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Image = UnityEngine.UI.Image;
 
 public class Enemy2 : MonoBehaviour
 {
+    // Daniel
+
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
@@ -43,6 +46,8 @@ public class Enemy2 : MonoBehaviour
     AggroBoxes Aggro;
 
     public GameObject aggresive;
+
+    [SerializeField] private Image JumpScare;
 
     // Start is called before the first frame update
     void Start()
@@ -260,6 +265,11 @@ public class Enemy2 : MonoBehaviour
             items.RadioUsing = false;
 
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Player" && items.RadioUsing == false)
+        {
+            JumpScare.enabled = true;
         }
     }
 }

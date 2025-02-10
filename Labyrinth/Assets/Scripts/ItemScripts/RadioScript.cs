@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RadioScript : MonoBehaviour
 {
+    // Daniel
+    
     Items items;
 
     [SerializeField] GameObject ItemManager;
@@ -12,7 +14,7 @@ public class RadioScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-  
+        ItemManager = GameObject.FindGameObjectWithTag("ItemManager");
     }
 
     // Update is called once per frame

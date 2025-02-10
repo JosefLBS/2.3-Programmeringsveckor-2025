@@ -1,6 +1,7 @@
 using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -8,6 +9,8 @@ using Image = UnityEngine.UI.Image;
 
 public class Items : MonoBehaviour
 {
+    // Daniel && Josef
+
     public Color RedColor;
     public Color GreenColor;
 
@@ -58,6 +61,11 @@ public class Items : MonoBehaviour
     [SerializeField]
     public GameObject Key_Item;
 
+    public bool HasPickenUpKey = false;
+
+    public bool HasPickenUpEnergyBar = false;
+
+    [SerializeField] GameObject Radio;
 
     // Start is called before the first frame update
     void Start()
@@ -74,6 +82,10 @@ public class Items : MonoBehaviour
             items[0] = 0;
             items[1] = 0;
             items[2] = 0;
+
+            Slot1.enabled = false;
+            Slot2.enabled = false;
+            Slot3.enabled = false;
         }
         
         // Switching Slots
@@ -184,6 +196,13 @@ public class Items : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
+                    if (RadioUsing)
+                    {
+                        Radio = GameObject.FindGameObjectWithTag("Radio");
+
+                        Destroy(Radio);
+                    }
+                    
                     RadioUsing = true;
 
                     Instantiate(MovingRadio, new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z), Quaternion.identity);
@@ -304,6 +323,13 @@ public class Items : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
+                    if (RadioUsing)
+                    {
+                        Radio = GameObject.FindGameObjectWithTag("Radio");
+
+                        Destroy(Radio);
+                    }
+
                     RadioUsing = true;
 
                     Instantiate(MovingRadio, new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z), Quaternion.identity);
@@ -424,6 +450,13 @@ public class Items : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
+                    if (RadioUsing)
+                    {
+                        Radio = GameObject.FindGameObjectWithTag("Radio");
+
+                        Destroy(Radio);
+                    }
+
                     RadioUsing = true;
 
                     Instantiate(MovingRadio, new Vector3(PlayerGameObject.transform.position.x, 3f, PlayerGameObject.transform.position.z), Quaternion.identity);
@@ -460,6 +493,16 @@ public class Items : MonoBehaviour
             {
                 player.Key = false;
             }
+        }
+
+        if (items[0] == 3 || items[1] == 3 || items[2] == 3)
+        {
+            HasPickenUpKey = true;
+        }
+
+        if (items[0] == 1 || items[1] == 1 || items[2] == 1)
+        {
+            HasPickenUpEnergyBar = true;
         }
     }
 

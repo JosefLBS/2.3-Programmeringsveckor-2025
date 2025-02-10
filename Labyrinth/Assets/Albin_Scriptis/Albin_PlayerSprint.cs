@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Albin_PlayerSprint : MonoBehaviour
 {
+    // Albin
+    
     private bool isRotating = false;
     private float targetAngle = 0f;
     private float currentAngle = 0f;

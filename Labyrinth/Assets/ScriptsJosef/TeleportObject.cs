@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TeleportObject : MonoBehaviour
 {
+    // Josef
+    
     public Vector3 teleportDestination;
     public float interactionDistance = 5f;
     bool pressedState = false;

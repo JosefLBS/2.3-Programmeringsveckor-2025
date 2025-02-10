@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Checkpoints : MonoBehaviour
 {
+    // Daniel
+
     Player player;
     
     public GameObject PlayerGameObject;

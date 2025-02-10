@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TeleToPlayer : MonoBehaviour
 {
+    // Josef
+
     public GameObject objectToTeleport;
     public Transform playerTransform;
     public Vector3 heldZone1 = new Vector3(5, 5, 5);

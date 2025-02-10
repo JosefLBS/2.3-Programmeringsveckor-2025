@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MazeMover : MonoBehaviour
 {
+    // Daniel
+
     Player player;
 
     public GameObject PlayerGameObject;
@@ -14,6 +16,8 @@ public class MazeMover : MonoBehaviour
     public bool StartGame = false;
 
     public bool standingOnTop = false;
+
+    public bool StartText;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +34,8 @@ public class MazeMover : MonoBehaviour
         if (standingOnTop == true && player.Key == true)
         {
             StartGame = true;
+
+            StartText = true;
         }
         
         if (StartGame == true)

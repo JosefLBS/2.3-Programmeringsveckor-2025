@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class Enemy1_Script : MonoBehaviour
 {
+    // Daniel
+
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
@@ -41,6 +45,8 @@ public class Enemy1_Script : MonoBehaviour
 
     public GameObject aggresive;
 
+    [SerializeField] private Image JumpScare;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +71,8 @@ public class Enemy1_Script : MonoBehaviour
             agent.destination = RestPoint.transform.position;
 
             agent.speed = 15;
+
+            RedLayer.SetActive(false);
         }
         
         if (Aggro.Aggresive == true)
@@ -189,6 +197,11 @@ public class Enemy1_Script : MonoBehaviour
             items.RadioUsing = false;
 
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Player" && items.RadioUsing == false)
+        {
+            JumpScare.enabled = true;
         }
     }
 }

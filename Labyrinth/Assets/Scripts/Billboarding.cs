@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Billboarding : MonoBehaviour
 {
+    // Daniel
+
     Vector3 CameraDirection;
     
     // Start is called before the first frame update

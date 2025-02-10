@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    // Josef
+
     Image Img;
     public GameObject objectID01;
     public GameObject objectID02;

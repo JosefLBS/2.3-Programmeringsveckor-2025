@@ -4,12 +4,25 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    // Daniel
+
+    bool Dead = false;
+
+    float DeadTimer = 0;
+
+    float TextTimer = 0;
+        
+    public bool Started = false;
+
+    [SerializeField] CapsuleCollider capsuleCollider;
+    
     private bool isRotating = false;
     private float targetAngle = 0f;
     private float currentAngle = 0f;
@@ -90,6 +103,16 @@ public class Player : MonoBehaviour
 
     TextMeshProUGUI textComponent2;
 
+    [SerializeField]
+    GameObject textGameObject3;
+
+    TextMeshProUGUI textComponent3;
+
+    [SerializeField]
+    GameObject textGameObject4;
+
+    TextMeshProUGUI textComponent4;
+
     Enemy1_Script enemy1;
 
     public GameObject ENEMY1;
@@ -102,19 +125,33 @@ public class Player : MonoBehaviour
 
     public GameObject MovingWall;
 
+    bool NoMoreText = false;
+
+    public bool gameComplete = false;
+
+    public AudioSource audioSource;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
+
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
         enemy1 = ENEMY1.GetComponent<Enemy1_Script>();
 
         items = ItemManager.GetComponent<Items>();
 
+        audioSource = GetComponent<AudioSource>();
+
         textComponent1 = textGameObject1.GetComponent<TextMeshProUGUI>();
         textComponent2 = textGameObject2.GetComponent<TextMeshProUGUI>();
+        textComponent3 = textGameObject3.GetComponent<TextMeshProUGUI>();
+        textComponent4 = textGameObject4.GetComponent<TextMeshProUGUI>();
 
         textComponent1.enabled = false;
         textComponent2.enabled = false;
+        textComponent3.enabled = true;
+        textComponent4.enabled = false;
     }
 
     void Update()
@@ -124,365 +161,462 @@ public class Player : MonoBehaviour
 
         StaminaBar.fillAmount = Stamina / MaxStamina;
 
-        //Red Light intensity check
-        if (enemy1.Hunting == true)
+        if (Started == false)
         {
-            RedLight.intensity = 1;
-
-            BlueLight.intensity = 1;
+            TextTimer += Time.deltaTime;
         }
 
-        else
+        if (Started == false && NoMoreText == false)
         {
-            RedLight.intensity = 5.5f;
-
-            BlueLight.intensity = 5.5f;
-        }
-
-        // Crystal Powers
-
-        if (rCrystal && bCrystal)
-        {
-            MovingWall.SetActive(false);
-        }
-
-        if (Purple == true)
-        {
-            MovingWall.SetActive(true);
-        }
-
-        // RED CRYSTAL
-
-        if (rCrystal == true)
-        {
-            animator.SetBool("RedCristal", true);
-
-            if (rPowerReady == true && Purple == false)
+            if (TextTimer > 25)
             {
-                animator.SetBool("Redpower", true);
+                Started = true;
 
-                if (Input.GetKey(KeyCode.X))
-                {
-                    rPowerUsing = true;
-
-                    rPowerReady = false;
-
-                    animator.SetBool("Redpower", false);
-
-                    r_CD = 0;
-
-                    rDuration = 5;
-                }
-            }
-
-            if (rPowerUsing)
-            {
-                textComponent2.enabled = true;
-
-                RedLight.enabled = true;
-
-                rDuration -= (Time.deltaTime);
-                rPowerTime = Mathf.RoundToInt(rDuration);
-
-                if (rPowerTime < 0)
-                {
-                    textComponent2.enabled = false;
-
-                    rPowerUsing = false;
-
-                    RedLight.enabled = false;
-                }
-            }
-
-            if (rPowerReady == false && rCrystal && rPowerUsing == false)
-            {
-                r_CD += Time.deltaTime;
-
-                if (r_CD > 30)
-                {
-                    rPowerReady = true;
-                }
-            }
-        }
-
-        // Blue Crystal
-
-        if (bCrystal == true)
-        {
-            animator.SetBool("BlueCrystal", true);
-
-            if (bPowerReady == false)
-            {
-                b_CD += Time.deltaTime;
-
-                bDuration -= Time.deltaTime;
-                bPowerTime = Mathf.RoundToInt(bDuration);
-
-                BlueBlock.transform.position = blockPosition;
-
-                if (bPowerTime < 0)
-                {
-                    BlueBlock.transform.position = blockSpawner.position;
-
-                    BlueBlock.SetActive(false);
-
-                    BlueLight.enabled = false;
-
-                    textComponent1.enabled = false;
-                }
-
-                if (b_CD > 30)
-                {
-                    bPowerReady = true;
-                }
-            }
-
-            if (bPowerReady == true)
-            {
-                animator.SetBool("BluePower", true);
-            }
-        }
-
-        if (Purple == true)
-        {
-            animator.SetBool("PurplePower", true);
-
-            PurpleLight.enabled = true;
-        }
-
-        if (StopSprinting == true)
-        {
-            SprintCD += Time.deltaTime;
-
-            if (SprintCD >= 1)
-            {
-                StopSprinting = false;
-
-                Sprint_Recovery = true;
-            }
-        }
-
-        if (Sprint_Recovery == true)
-        {
-            if (Stamina <= 100)
-            {
-                Stamina += Time.deltaTime * 10;
-            }
-
-            if (Stamina > 100)
-            {
-                Stamina = 100;
-            }
-        }
-
-        if (Sprinting == true)
-        {
-            Sprint_Recovery = false;
-            
-            if (Stamina >= 0)
-            {
-                if (Moving)
-                {
-                    Stamina -= Time.deltaTime * 20;
-                }
-            }
-
-            if (Stamina < 0)
-            {
-                Stamina = 0;
-            }
-        }
-        
-        if (!Freeze)
-        {
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                Freeze = true;
-
-                rotationSpeed = 5f;
-
-                TurnRight = true;
+                NoMoreText = true;
                 
-                isRotating = true;
-                targetAngle = currentAngle + 90f;
+                textComponent3.text = ("");
+
+                TextTimer = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            else if (TextTimer > 22)
             {
-                Freeze = true;
-
-                rotationSpeed = 5f;
-
-                TurnLeft = true;
-
-                isRotating = true;
-                targetAngle = currentAngle - 90f;
+                textComponent3.text = ("Try To Find It And Good Luck Maze Breaker");
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            else if (TextTimer > 19)
             {
-                Freeze = true;
-
-                rotationSpeed = 3f;
-
-                TurnRight = true;
-
-                isRotating = true;
-                targetAngle = currentAngle + 180f;
+                textComponent3.text = ("However, The Key Should Be Somewhere On The Red Path");
             }
 
-
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
+            else if (TextTimer > 16)
             {
-                if (Physics.Raycast(transform.position, transform.forward, 5) == false || hit.collider.CompareTag("Item") == true || hit.collider.CompareTag("Radio") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("CheckPoint")  || hit.collider.CompareTag("Structure"))
+                textComponent3.text = ("Unfortunately It Is Locked Somewhere Behind The Gate");
+            }
+
+            else if (TextTimer > 13)
+            {
+                textComponent3.text = ("I Only Know The Whereabouts Of The Blue One");
+            }
+
+            else if (TextTimer > 10)
+            {
+                textComponent3.text = ("I Need You To Get Me The Maze's Two Holy Crystals ");
+            }
+
+            else if (TextTimer > 7)
+            {
+                textComponent3.text = ("Let's Get Straigth To The Point Maze Breaker");
+            }
+
+            else if (TextTimer > 3)
+            {
+                textComponent3.text = ("I Was Starting To Think That The Next One Wasn't Going To Show Up");
+            }
+
+            else
+            {
+                textComponent3.text = ("There You Are Maze Breaker");
+            }
+        }
+
+        if (Dead == true)
+        {
+            DeadTimer += Time.deltaTime;
+
+            print(DeadTimer);
+
+            if (DeadTimer > 2)
+            {
+                textComponent4.enabled = true;
+            }
+            
+            if (DeadTimer > 5)
+            {
+                Application.Quit();
+            }
+        }
+
+        if (Dead == false)
+        {
+            if (Started == true)
+            {
+                //Red Light intensity check
+                if (enemy1.Hunting == true)
                 {
-                    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                    RedLight.intensity = 1;
+
+                    BlueLight.intensity = 1;
+                }
+
+                else
+                {
+                    RedLight.intensity = 5.5f;
+
+                    BlueLight.intensity = 5.5f;
+                }
+
+                if (gameComplete == true)
+                {
+                    animator.SetBool("GameComplete", true);
+                }
+                
+                // Crystal Powers
+
+                if (rCrystal && bCrystal)
+                {
+                    MovingWall.SetActive(false);
+                }
+
+                if (Purple == true)
+                {
+                    MovingWall.SetActive(true);
+                }
+
+                // RED CRYSTAL
+
+                if (rCrystal == true)
+                {
+                    animator.SetBool("RedCristal", true);
+
+                    if (rPowerReady == true && Purple == false)
+                    {
+                        animator.SetBool("Redpower", true);
+
+                        if (Input.GetKey(KeyCode.X))
+                        {
+                            rPowerUsing = true;
+
+                            rPowerReady = false;
+
+                            animator.SetBool("Redpower", false);
+
+                            r_CD = 0;
+
+                            rDuration = 5;
+                        }
+                    }
+
+                    if (rPowerUsing)
+                    {
+                        textComponent2.enabled = true;
+
+                        RedLight.enabled = true;
+
+                        rDuration -= (Time.deltaTime);
+                        rPowerTime = Mathf.RoundToInt(rDuration);
+
+                        if (rPowerTime < 0)
+                        {
+                            textComponent2.enabled = false;
+
+                            rPowerUsing = false;
+
+                            RedLight.enabled = false;
+                        }
+                    }
+
+                    if (rPowerReady == false && rCrystal && rPowerUsing == false)
+                    {
+                        r_CD += Time.deltaTime;
+
+                        if (r_CD > 30)
+                        {
+                            rPowerReady = true;
+                        }
+                    }
+                }
+
+                // Blue Crystal
+              
+                if (bCrystal == true)
+                {
+                    animator.SetBool("BlueCrystal", true);
+
+                    if (bPowerReady == false)
+                    {
+                        b_CD += Time.deltaTime;
+
+                        bDuration -= Time.deltaTime;
+                        bPowerTime = Mathf.RoundToInt(bDuration);
+
+                        BlueBlock.transform.position = blockPosition;
+
+                        if (bPowerTime < 0)
+                        {
+                            BlueBlock.transform.position = blockSpawner.position;
+
+                            BlueBlock.SetActive(false);
+
+                            BlueLight.enabled = false;
+
+                            textComponent1.enabled = false;
+                        }
+
+                        if (b_CD > 30)
+                        {
+                            bPowerReady = true;
+                        }
+                    }
+
+                    if (bPowerReady == true)
+                    {
+                        animator.SetBool("BluePower", true);
+                    }
+                }
+
+                if (gameComplete == true)
+                {
+                    PurpleLight.enabled = false;
+                }
+                
+                if (Purple == true && gameComplete == false)
+                {
+                    animator.SetBool("PurplePower", true);
+
+                    PurpleLight.enabled = true;
+                }
+
+                if (StopSprinting == true)
+                {
+                    SprintCD += Time.deltaTime;
+
+                    if (SprintCD >= 1)
+                    {
+                        StopSprinting = false;
+
+                        Sprint_Recovery = true;
+                    }
+                }
+
+                if (Sprint_Recovery == true)
+                {
+                    if (Stamina <= 100)
+                    {
+                        Stamina += Time.deltaTime * 10;
+                    }
+
+                    if (Stamina > 100)
+                    {
+                        Stamina = 100;
+                    }
+                }
+
+                if (Sprinting == true)
+                {
+                    Sprint_Recovery = false;
+
+                    if (Stamina >= 0)
+                    {
+                        if (Moving)
+                        {
+                            Stamina -= Time.deltaTime * 20;
+                        }
+                    }
+
+                    if (Stamina < 0)
+                    {
+                        Stamina = 0;
+                    }
+                }
+
+                if (!Freeze)
+                {
+                    if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
                     {
                         Freeze = true;
 
-                        Moving = true;
+                        rotationSpeed = 5f;
 
-                        TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                        TurnRight = true;
+
+                        isRotating = true;
+                        targetAngle = currentAngle + 90f;
                     }
 
-                    if (bPowerReady && Purple == false && bCrystal)
+                    if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
                     {
-                        // BluePower
+                        Freeze = true;
 
-                        if (Input.GetKeyDown(KeyCode.Z))
+                        rotationSpeed = 5f;
+
+                        TurnLeft = true;
+
+                        isRotating = true;
+                        targetAngle = currentAngle - 90f;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+                    {
+                        Freeze = true;
+
+                        rotationSpeed = 3f;
+
+                        TurnRight = true;
+
+                        isRotating = true;
+                        targetAngle = currentAngle + 180f;
+                    }
+
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, (transform.forward), out hit, Mathf.Infinity))
+                    {
+                        if (Physics.Raycast(transform.position, transform.forward, 5) == false || hit.collider.CompareTag("Item") == true || hit.collider.CompareTag("Radio") || hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("CheckPoint") || hit.collider.CompareTag("Structure"))
                         {
-                            bDuration = 6;
+                            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                            {
+                                Freeze = true;
 
-                            animator.SetBool("BluePower", false);
+                                Moving = true;
 
-                            bPowerReady = false;
+                                TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                            }
 
-                            BlueLight.enabled = true;
+                            if (Purple == false)
+                            {
+                                if (bPowerReady && bCrystal)
+                                {
+                                    // BluePower
 
-                            BlueBlock.SetActive(true);
+                                    if (Input.GetKeyDown(KeyCode.Z))
+                                    {
+                                        bDuration = 6;
 
-                            blockPosition = BlueBlock.transform.position;
+                                        animator.SetBool("BluePower", false);
 
-                            textComponent1.enabled = true;
+                                        bPowerReady = false;
 
-                            b_CD = 0;
+                                        BlueLight.enabled = true;
+
+                                        BlueBlock.SetActive(true);
+
+                                        blockPosition = BlueBlock.transform.position;
+
+                                        textComponent1.enabled = true;
+
+                                        b_CD = 0;
+                                    }
+                                }
+                            }
+                            
+                            
+                        }
+
+                        if (rPowerUsing)
+                        {
+                            if (hit.collider.CompareTag("OuterWall") == false && Physics.Raycast(transform.position, transform.forward, 5) == true)
+                            {
+                                if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                                {
+                                    Freeze = true;
+
+                                    Moving = true;
+
+                                    TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
+                                }
+                            }
                         }
                     }
                 }
 
-                if (rPowerUsing)
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
-                    if (hit.collider.CompareTag("OuterWall") == false && Physics.Raycast(transform.position, transform.forward, 5) == true)
+                    if (Stamina > 0)
                     {
-                        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-                        {
-                            Freeze = true;
+                        StopSprinting = false;
 
-                            Moving = true;
+                        movementSpeed = 20f;
 
-                            TargetPosition = gameObject.transform.position + Vector3Int.RoundToInt(transform.forward) * 5;
-                        }
+                        rotationSpeed = 20f;
+
+                        Sprinting = true;
                     }
                 }
-            }
-        }
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {   
-            if (Stamina > 0)
-            {
-                StopSprinting = false;
-                
-                movementSpeed = 20f;
-
-                rotationSpeed = 20f;
-
-                Sprinting = true;
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) || Stamina <= 0)
-        {
-            if (StopSprinting == false)
-            {
-                StopSprinting = true;
-
-                movementSpeed = 5f;
-
-                rotationSpeed = 5f;
-
-                Sprinting = false;
-
-                SprintCD = 0f;
-            }
-        }
-
-        if (Moving == true)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, TargetPosition, movementSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, TargetPosition) < 0.01f)
-            {
-                gameObject.transform.position = TargetPosition;
-                
-                Moving = false;
-
-                Freeze = false;
-            }
-        }
-
-        if (isRotating)
-        {
-            currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
-            transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
-
-            if (TurnRight)
-            {
-                if (targetAngle - currentAngle < 1)
+                if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) || Stamina <= 0)
                 {
-                    currentAngle = targetAngle;
+                    if (StopSprinting == false)
+                    {
+                        StopSprinting = true;
+
+                        movementSpeed = 5f;
+
+                        rotationSpeed = 5f;
+
+                        Sprinting = false;
+
+                        SprintCD = 0f;
+                    }
+                }
+
+                if (Moving == true)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, TargetPosition, movementSpeed * Time.deltaTime);
+
+                    if (Vector3.Distance(transform.position, TargetPosition) < 0.01f)
+                    {
+                        gameObject.transform.position = TargetPosition;
+
+                        Moving = false;
+
+                        Freeze = false;
+                    }
+                }
+
+                if (isRotating)
+                {
+                    currentAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
+                    transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
+
+                    if (TurnRight)
+                    {
+                        if (targetAngle - currentAngle < 1)
+                        {
+                            currentAngle = targetAngle;
+                        }
+                    }
+
+                    if (TurnLeft) // -> Seperates Right- And Left Turns
+                    {
+                        if (targetAngle - currentAngle > -1)
+                        {
+                            currentAngle = targetAngle;
+                        }
+                    }
+
+                    if (Mathf.Abs(currentAngle - targetAngle) < 0.1f)
+                    {
+                        isRotating = false;
+
+                        transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+
+                        currentAngle = targetAngle; // Ensure precise final angle
+
+                        TurnRight = false;
+
+                        TurnLeft = false;
+
+                        Freeze = false; // Enables Player Inputs
+                    }
+                }
+
+                // Crystal Collecting
+
+                if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
+                {
+                    bCrystal = true;
+
+                    BlueCrystal.SetActive(false);
+                }
+
+                if (transform.position.x == RedCrystal.transform.position.x && transform.position.z == RedCrystal.transform.position.z)
+                {
+                    rCrystal = true;
+
+                    RedCrystal.SetActive(false);
                 }
             }
-
-            if (TurnLeft) // -> Seperates Right- And Left Turns
-            {
-                if (targetAngle - currentAngle > -1)
-                {
-                    currentAngle = targetAngle;
-                }
-            }
-            
-            if (Mathf.Abs(currentAngle - targetAngle) < 0.1f)
-            {
-                isRotating = false;
-
-                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-
-                currentAngle = targetAngle; // Ensure precise final angle
-
-                TurnRight = false;
-
-                TurnLeft = false;
-                
-                Freeze = false; // Enables Player Inputs
-            }
-        }
-
-        // Crystal Collecting
-        
-        if (transform.position.x == BlueCrystal.transform.position.x && transform.position.z == BlueCrystal.transform.position.z)
-        {
-            bCrystal = true;
-
-            BlueCrystal.SetActive(false);
-        }
-
-        if (transform.position.x == RedCrystal.transform.position.x && transform.position.z == RedCrystal.transform.position.z)
-        {
-            rCrystal = true;
-
-            RedCrystal.SetActive(false);
         }
     }
 
@@ -492,7 +626,11 @@ public class Player : MonoBehaviour
         {
             if (items.RadioUsing == false)
             {
-                gameObject.transform.position = Spawn.position;
+                capsuleCollider.enabled = false;
+
+                Dead = true;
+
+                audioSource.enabled = true;
             }
         }
     }

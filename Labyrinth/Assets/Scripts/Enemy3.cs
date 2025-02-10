@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
+using Image = UnityEngine.UI.Image;
 
 public class Enemy3 : MonoBehaviour
 {
+    // Daniel
+
     public Transform PlayerPosition;
     private NavMeshAgent agent;
 
@@ -31,6 +35,8 @@ public class Enemy3 : MonoBehaviour
 
     float Stun_timer;
     public float StunTime;
+
+    [SerializeField] private Image JumpScare;
 
     // Start is called before the first frame update
     void Start()
@@ -136,6 +142,14 @@ public class Enemy3 : MonoBehaviour
 
                 boxCollider.enabled = true;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            JumpScare.enabled = true;
         }
     }
 }

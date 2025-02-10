@@ -6431,6 +6431,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy1
       objectReference: {fileID: 0}
+    - target: {fileID: 5665125549031145436, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6201312303026162433, guid: de2de8bc77c38be40acaff9eba10628c, type: 3}
       propertyPath: RedLayer
       value: 
@@ -7087,6 +7091,10 @@ PrefabInstance:
     - target: {fileID: 6964810224488070941, guid: a856431a1769e3d44a265252a9338181, type: 3}
       propertyPath: m_Name
       value: Enemy2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964810224488070941, guid: a856431a1769e3d44a265252a9338181, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

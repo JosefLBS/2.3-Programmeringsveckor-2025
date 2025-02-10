@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WhiteBox : MonoBehaviour
 {
+    // Daniel
+    
     public GameObject WhiteDoor;
     
     // Start is called before the first frame update
