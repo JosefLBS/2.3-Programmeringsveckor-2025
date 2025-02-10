@@ -82,7 +82,7 @@ public class BlueText : MonoBehaviour
                 
                 else if (timer > 5)
                 {
-                    textComponent.text = ("Which In This Case Is Manifesting A Temporary Blue Wall, That Everyone Can See Through, But Only You Can Walk Past");
+                    textComponent.text = ("Which In This Case Is Manifesting A Temporary Blue Wall, That You And Only You Can Walk Through");
                 }
                 
                 else if (timer > 2)
