@@ -72,7 +72,12 @@ public class Enemy1_Script : MonoBehaviour
 
             agent.speed = 15;
 
-            RedLayer.SetActive(false);
+            if (Hunting)
+            {
+                RedLayer.SetActive(false);
+
+                Hunting = false;
+            }
         }
         
         if (Aggro.Aggresive == true)
