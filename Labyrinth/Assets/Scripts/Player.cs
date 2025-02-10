@@ -224,8 +224,6 @@ public class Player : MonoBehaviour
         {
             DeadTimer += Time.deltaTime;
 
-            print(DeadTimer);
-
             if (DeadTimer > 2)
             {
                 textComponent4.enabled = true;

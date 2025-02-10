@@ -61,7 +61,7 @@ public class Enemy1 : MonoBehaviour
 
             else
             {
-                textComponent.text = ("Be Warned Maze Runner");
+                textComponent.text = ("Be Warned Maze Breaker");
             }
         }
     }
