@@ -79,6 +79,17 @@ public class PurpleText : MonoBehaviour
                 {
                     textComponent.text = ("Looks Like Your Items Disappeared And So Did The Entrance");
                 }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Done = true;
+
+                    textComponent.text = ("");
+
+                    player.Started = true;
+
+                    Destroy(gameObject);
+                }
             }
         }
     }

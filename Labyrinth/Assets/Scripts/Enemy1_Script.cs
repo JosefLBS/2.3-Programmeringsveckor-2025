@@ -30,7 +30,7 @@ public class Enemy1_Script : MonoBehaviour
     public float SearchingSpeed;
 
     public bool Hunting = false;
-    float HuntTime = 0;
+    public float HuntTime = 0;
     bool MonsterGrace = false;
 
     AudioSource[] audioSources;
@@ -72,11 +72,13 @@ public class Enemy1_Script : MonoBehaviour
 
             agent.speed = 15;
 
-            if (Hunting)
+            audioSources[1].enabled = false;
+
+            if (HuntTime < 22)
             {
                 RedLayer.SetActive(false);
 
-                Hunting = false;
+                HuntTime = 23;
             }
         }
         

@@ -191,16 +191,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPosition: {fileID: 0}
-  spawnerPoint: {fileID: 0}
+  RestPoint: {fileID: 0}
+  napTime: 0
   PlayerGameObject: {fileID: 0}
   RedLayer: {fileID: 0}
   animator: {fileID: 0}
-  RoamingSpeed: 5
+  RoamingSpeed: 9
   HuntingSpeed: 18
-  SearchingSpeed: 10
+  SearchingSpeed: 12
   Hunting: 0
+  HuntTime: 0
   ItemManager: {fileID: 0}
   boxCollider: {fileID: 0}
+  aggresive: {fileID: 0}
+  JumpScare: {fileID: 0}
 --- !u!65 &8322635966790082433
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -255,7 +259,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 36935d35deddf8f46944eb416ed4fafa, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -6,9 +6,9 @@ public class MazeMover : MonoBehaviour
 {
     // Daniel
 
-    Player player;
+    Items items;
 
-    public GameObject PlayerGameObject;
+    public GameObject ItemManager;
 
     public GameObject MoveGroup1;
     public GameObject MoveGroup2;
@@ -22,7 +22,7 @@ public class MazeMover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = PlayerGameObject.GetComponent<Player>();
+        items = ItemManager.GetComponent<Items>();
 
         MoveGroup1.SetActive(false);
         MoveGroup2.SetActive(true);
@@ -31,7 +31,7 @@ public class MazeMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        if (standingOnTop == true && player.Key == true)
+        if (standingOnTop == true && items.HasPickenUpKey == true)
         {
             StartGame = true;
 

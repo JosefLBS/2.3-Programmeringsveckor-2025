@@ -94,6 +94,15 @@ public class BlueText : MonoBehaviour
                 {
                     textComponent.text = ("Congrats Maze Breaker, You Found The Blue Crystal");
                 }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Done = true;
+
+                    textComponent.text = ("");
+
+                    player.Started = true;
+                }
             }
         }
     }

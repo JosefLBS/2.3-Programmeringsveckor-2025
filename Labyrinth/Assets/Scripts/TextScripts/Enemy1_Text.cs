@@ -63,6 +63,15 @@ public class Enemy1 : MonoBehaviour
             {
                 textComponent.text = ("Be Warned Maze Breaker");
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                textComponent.text = ("");
+
+                player.Started = true;
+
+                Destroy(gameObject);
+            }
         }
     }
 

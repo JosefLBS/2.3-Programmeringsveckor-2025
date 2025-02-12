@@ -39,7 +39,7 @@ public class MiddleText : MonoBehaviour
             if (Done == false)
             {
                 timer += Time.deltaTime;
-
+                
                 if (timer > 10)
                 {
                     textComponent.text = ("");
@@ -63,6 +63,16 @@ public class MiddleText : MonoBehaviour
                 else
                 {
                     textComponent.text = ("WoW, Maze Breaker Look Behind You");
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    textComponent.text = ("");
+
+                    Enemy1_Text.SetActive(true);
+                    Enemy2_Text.SetActive(true);
+
+                    Done = true;
                 }
             }
         }

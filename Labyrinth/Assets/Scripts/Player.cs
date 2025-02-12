@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
-
 public class Player : MonoBehaviour
 {
     // Daniel
@@ -35,7 +27,7 @@ public class Player : MonoBehaviour
     public bool Moving = false;
 
     float rotationSpeed = 5;
-    float movementSpeed = 5;
+    float movementSpeed = 8;
 
     public float Stamina = 100;
 
@@ -121,8 +113,6 @@ public class Player : MonoBehaviour
 
     public GameObject ItemManager;
 
-    public Material WallMaterial;
-
     public GameObject MovingWall;
 
     bool NoMoreText = false;
@@ -167,7 +157,7 @@ public class Player : MonoBehaviour
         }
 
         if (Started == false && NoMoreText == false)
-        {
+        {           
             if (TextTimer > 25)
             {
                 Started = true;
@@ -218,6 +208,15 @@ public class Player : MonoBehaviour
             {
                 textComponent3.text = ("There You Are Maze Breaker");
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Started = true;
+
+                NoMoreText = true;
+
+                textComponent3.text = ("");
+            }
         }
 
         if (Dead == true)
@@ -237,6 +236,11 @@ public class Player : MonoBehaviour
 
         if (Dead == false)
         {
+            if (Started == false)
+            {
+                Sprinting = false;
+            }
+            
             if (Started == true)
             {
                 //Red Light intensity check
@@ -479,7 +483,7 @@ public class Player : MonoBehaviour
 
                                     if (Input.GetKeyDown(KeyCode.Z))
                                     {
-                                        bDuration = 6;
+                                        bDuration = 10;
 
                                         animator.SetBool("BluePower", false);
 
@@ -538,9 +542,9 @@ public class Player : MonoBehaviour
                     {
                         StopSprinting = true;
 
-                        movementSpeed = 5f;
+                        movementSpeed = 8f;
 
-                        rotationSpeed = 5f;
+                        rotationSpeed = 6f;
 
                         Sprinting = false;
 

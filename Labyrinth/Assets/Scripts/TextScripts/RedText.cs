@@ -93,6 +93,15 @@ public class RedText : MonoBehaviour
                 {
                     textComponent.text = ("Congrats Maze Breaker, You Found The Red Crystal");
                 }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Done = true;
+
+                    textComponent.text = ("");
+
+                    player.Started = true;
+                }
             }
         }
     }

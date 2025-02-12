@@ -137,6 +137,8 @@ MonoBehaviour:
   SearchingSpeed: 8
   LOS_Speed: 23
   ItemManager: {fileID: 0}
+  aggresive: {fileID: 0}
+  JumpScare: {fileID: 0}
 --- !u!195 &4166147492622959353
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -190,7 +192,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: efb8003bad0ad0d45b05cc8b06e00df4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -415,7 +417,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f7871baf3489ad84b867c74061d7a376, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0

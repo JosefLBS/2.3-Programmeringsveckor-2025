@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 using Image = UnityEngine.UI.Image;
 
 public class Enemy3 : MonoBehaviour

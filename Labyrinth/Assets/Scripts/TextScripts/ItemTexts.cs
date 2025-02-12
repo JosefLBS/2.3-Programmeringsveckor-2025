@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemTexts : MonoBehaviour
 {
@@ -57,6 +53,13 @@ public class ItemTexts : MonoBehaviour
                     {
                         textComponent.text = ("");
                         
+                        Done = true;
+                    }
+
+                    else if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        textComponent.text = ("");
+
                         Done = true;
                     }
                 }
